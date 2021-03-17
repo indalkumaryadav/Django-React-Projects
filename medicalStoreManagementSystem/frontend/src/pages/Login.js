@@ -5,7 +5,8 @@ import "adminbsb-materialdesign/plugins/animate-css/animate.css";
 import "adminbsb-materialdesign/css/style.css";
 import GoogleFontLoader from "react-google-font-loader";
 import AuthHandler from "../utils/AuthHandler";
-
+import { Redirect } from "react-router-dom";
+import Config from "../utils/Config";
 class Login extends Component {
   state = {
     username: "",
@@ -66,6 +67,9 @@ class Login extends Component {
   };
 
   render() {
+    if (AuthHandler.loggedIn()) {
+      return <Redirect to="/home" />;
+    }
     document.body.className = "login-page";
     return (
       <>

@@ -1,8 +1,10 @@
-import React, { Component } from "react";
+import React from "react";
 
-class Overlay extends Component {
+class Overlay extends React.Component {
   render() {
-    return <div className="overlay"></div>;
+    return (
+      <div className="overlay" style={{ display: this.props.display }}></div>
+    );
   }
 }
 
