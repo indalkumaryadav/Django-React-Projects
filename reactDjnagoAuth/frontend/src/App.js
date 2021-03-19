@@ -4,6 +4,8 @@ import Home from "./pages/Home";
 import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
 import ForgetPassword from "./pages/ForgetPassword";
+import PrivateRoute from "./utils/PrivateRoute";
+
 function App() {
   return (
     <Switch>

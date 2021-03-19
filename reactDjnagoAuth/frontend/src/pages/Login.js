@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import GoogleFontLoader from "react-google-font-loader";
 import "adminbsb-materialdesign/plugins/bootstrap/css/bootstrap.css";
 import "adminbsb-materialdesign/plugins/node-waves/waves.css";
@@ -6,12 +6,31 @@ import "adminbsb-materialdesign/plugins/animate-css/animate.css";
 import "adminbsb-materialdesign/css/style.css";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { API } from "../config/server";
+import { reactLocalStorage } from "reactjs-localstorage";
+
 const Login = () => {
+  const [seuccess, setSuccess] = useState([]);
   document.body.className = "login-page";
   const { register, handleSubmit } = useForm();
+
   const onSubmit = (data) => {
     console.log(data);
+    axios
+      .post(`${API}token/`, data)
+      .then((response) => {
+        console.log(response);
+        if (response.status === 200) {
+          reactLocalStorage.set("token", response.data.access);
+          reactLocalStorage.set("refresh_token", response.data.access);
+        }
+      })
+      .then((error) => {
+        console.log(error);
+      });
   };
+
   return (
     <>
       <GoogleFontLoader
@@ -37,17 +56,16 @@ const Login = () => {
         <div className="card">
           <div className="body">
             <form id="sign_in" method="POST" onSubmit={handleSubmit(onSubmit)}>
-              {/* <div className="msg">Sign in</div> */}
               <div className="input-group">
                 <span className="input-group-addon">
                   <i className="material-icons">person</i>
                 </span>
                 <div className="form-line">
                   <input
-                    type="text"
+                    type="email"
                     className="form-control"
-                    name="username"
-                    placeholder="Username"
+                    name="email"
+                    placeholder="email"
                     required
                     autofocus
                     ref={register}
@@ -73,7 +91,6 @@ const Login = () => {
                 <div className="col-xs-8 p-t-5">
                   <input
                     type="checkbox"
-                    name="rememberme"
                     id="rememberme"
                     className="filled-in chk-col-pink"
                   />
