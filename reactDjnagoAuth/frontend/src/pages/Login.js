@@ -12,13 +12,7 @@ import { reactLocalStorage } from "reactjs-localstorage";
 
 const Login = () => {
   let history = useHistory();
-  useEffect(() => {
-    if (reactLocalStorage.get("token")) {
-      history.push("/home");
-    }else{
-      
-    }
-  }, []);
+  useEffect(() => {}, []);
   const [seuccess, setSuccess] = useState([]);
   document.body.className = "login-page";
   const { register, handleSubmit } = useForm();
@@ -31,7 +25,7 @@ const Login = () => {
         console.log(response);
         if (response.status === 200) {
           reactLocalStorage.set("token", response.data.access);
-          reactLocalStorage.set("refresh_token", response.data.access);
+          history.push("/");
         }
       })
       .then((error) => {
