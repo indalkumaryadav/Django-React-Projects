@@ -5,12 +5,20 @@ import "adminbsb-materialdesign/plugins/node-waves/waves.css";
 import "adminbsb-materialdesign/plugins/animate-css/animate.css";
 import "adminbsb-materialdesign/css/style.css";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
 import { API } from "../config/server";
 import { reactLocalStorage } from "reactjs-localstorage";
 
 const Login = () => {
+  let history = useHistory();
+  useEffect(() => {
+    if (reactLocalStorage.get("token")) {
+      history.push("/home");
+    }else{
+      
+    }
+  }, []);
   const [seuccess, setSuccess] = useState([]);
   document.body.className = "login-page";
   const { register, handleSubmit } = useForm();

@@ -1,13 +1,20 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import GoogleFontLoader from "react-google-font-loader";
 import "adminbsb-materialdesign/plugins/bootstrap/css/bootstrap.css";
 import "adminbsb-materialdesign/plugins/node-waves/waves.css";
 import "adminbsb-materialdesign/plugins/animate-css/animate.css";
 import "adminbsb-materialdesign/css/style.css";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import { reactLocalStorage } from "reactjs-localstorage";
 
 const Login = () => {
+  let history = useHistory();
+  useEffect(() => {
+    if (reactLocalStorage.get("token")) {
+      history.push("/home");
+    }
+  }, []);
   document.body.className = "signup-page";
   const { register, handleSubmit } = useForm();
   const onSubmit = (data) => {
@@ -48,7 +55,7 @@ const Login = () => {
                     type="text"
                     class="form-control"
                     name="first_name"
-                    placeholder="first name"
+                    placeholder="First Name"
                     required
                     autofocus
                     ref={register}
