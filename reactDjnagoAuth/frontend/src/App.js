@@ -2,18 +2,16 @@ import React from "react";
 import { Switch, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import SignUp from "./pages/SignUp";
-import Login from "./pages/Login";
+import UserLogin from "./pages/UserLogin";
 import ForgetPassword from "./pages/ForgetPassword";
 import PrivateRoute from "./utils/PrivateRoute";
 
 function App() {
   return (
     <Switch>
-      <Route exact path="/home" component={Home} />
-      <Route exact path="/" component={Home} />
-      {/* <PrivateRoute exact path="/" component={Home} isAuth={false} /> */}
-      <Route exact path="/login" component={Login} />
-      <Route exact path="/signup" component={SignUp} />
+      <PrivateRoute exact path="/" component={Home} />
+      <Route exact path="/user/login" component={UserLogin} />
+      <Route exact path="/user/register" component={SignUp} />
       <Route exact path="/forget/password" component={ForgetPassword} />
     </Switch>
   );

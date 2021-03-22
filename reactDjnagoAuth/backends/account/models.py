@@ -27,8 +27,6 @@ class CustomAccountManager(BaseUserManager):
 
 class NewUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
-    # user_name = models.CharField(max_length=30, unique=True)
-    first_name = models.CharField(max_length=100, unique=True)
     start_date = models.DateTimeField(auto_now_add=True)
     about = models.TextField(max_length=500, blank=True)
     is_staff = models.BooleanField(default=False)

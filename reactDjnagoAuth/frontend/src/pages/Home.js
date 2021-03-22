@@ -1,21 +1,10 @@
-import React, { useEffect } from "react";
-import { useHistory, Redirect } from "react-router-dom";
-import { reactLocalStorage } from "reactjs-localstorage";
-import NavBar from "../components/NavBar";
+import React from "react";
+
 const Home = () => {
-  let history = useHistory();
-  useEffect(() => {
-    if (reactLocalStorage.get("token")) {
-      history.push("/");
-    } else {
-      history.push("/login");
-    }
-  }, []);
   return (
-    <>
-      <NavBar />
+    <div style={{ backgroundColor: "red", width: "100%", height: "100vh" }}>
       <h1>Home page</h1>
-    </>
+    </div>
   );
 };
 

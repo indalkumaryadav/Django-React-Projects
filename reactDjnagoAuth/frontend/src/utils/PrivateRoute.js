@@ -1,18 +1,16 @@
 import React, { Component } from "react";
 import { Redirect, Route } from "react-router-dom";
-const PrivateRoute = ({ isAuth: isAuth, component: Component, ...rest }) => {
+import { reactLocalStorage } from "reactjs-localstorage";
+
+const PrivateRoute = ({ component: Component, ...rest }) => {
   return (
     <Route
       {...rest}
       render={(props) => {
-        if (isAuth) {
+        if (reactLocalStorage.get("token")) {
           return <Component />;
         } else {
-          return (
-            <Redirect
-              to={{ pathname: "/login", state: { from: props.location } }}
-            />
-          );
+          return <Redirect to="/user/login" />;
         }
       }}
     />

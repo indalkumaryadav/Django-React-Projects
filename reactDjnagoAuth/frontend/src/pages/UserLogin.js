@@ -1,31 +1,27 @@
-import React, { useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { Link, useHistory } from "react-router-dom";
+import React, { Component, useEffect } from "react";
 import { reactLocalStorage } from "reactjs-localstorage";
+import { Redirect, useHistory, Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
 import axios from "axios";
-import { SERVER } from "../config/server";
+import { API } from "../config/server";
 
-const SingUp = () => {
-  let history = useHistory();
-  useEffect(() => {}, []);
-
+const UserLogin = () => {
+  const history = useHistory();
   const { register, handleSubmit } = useForm();
-
   const onSubmit = (data) => {
     console.log(data);
     axios
-      .post(`${SERVER}account/user/register/`, data)
+      .post(`${API}token/`, data)
       .then((response) => {
-        console.log(response);
         if (response.status === 200) {
-          history.push("/user/login");
+          reactLocalStorage.set("token", response.data.access);
+          history.push("/");
         }
       })
       .then((error) => {
         console.log(error);
       });
   };
-
   function isLogin() {
     if (reactLocalStorage.get("token")) {
       history.push("/");
@@ -35,40 +31,31 @@ const SingUp = () => {
   useEffect(() => {
     isLogin();
   });
+
   return (
     <div style={{ display: "flex", justifyContent: "center" }}>
       <form method="POST" onSubmit={handleSubmit(onSubmit)}>
-        <h1>Register User</h1>
-        <br />
-        <br />
-        <input
-          type="email"
-          name="email"
-          placeholder="email"
-          required
-          ref={register}
-        />
+        <h1>Login</h1>
+        <input type="email" name="email" placeholder="email" ref={register} />
         <br />
         <br />
         <input
           type="password"
           name="password"
-          minlength="6"
-          placeholder="Password"
-          required
+          placeholder="password"
           ref={register}
         />
         <br />
         <br />
-        <button type="submit">Register</button>
+        <button type="submit">Login</button>
         <br />
         <br />
         <p>
-          Already have an account? <Link to="/user/login">Login</Link>
+          Don't have an account? <Link to="/user/register">register here</Link>
         </p>
       </form>
     </div>
   );
 };
 
-export default SingUp;
+export default UserLogin;
