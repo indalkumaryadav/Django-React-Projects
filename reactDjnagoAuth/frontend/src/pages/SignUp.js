@@ -18,6 +18,7 @@ const SingUp = () => {
       .then((response) => {
         console.log(response);
         if (response.status === 200) {
+          alert(response.data.message);
           history.push("/user/login");
         }
       })
@@ -39,8 +40,6 @@ const SingUp = () => {
     <div style={{ display: "flex", justifyContent: "center" }}>
       <form method="POST" onSubmit={handleSubmit(onSubmit)}>
         <h1>Register User</h1>
-        <br />
-        <br />
         <input
           type="email"
           name="email"
@@ -64,7 +63,7 @@ const SingUp = () => {
         <br />
         <br />
         <p>
-          Already have an account? <Link to="/user/login">Login</Link>
+          Already have an account? <Link to="/user/login">Login here</Link>
         </p>
       </form>
     </div>
