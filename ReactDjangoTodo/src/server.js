@@ -1,1 +1,1 @@
-export const SERVER = "http://127.0.0.1:8000/api/todos/";
+export const SERVER = "https://intense-refuge-66997.herokuapp.com/api/todos/";
