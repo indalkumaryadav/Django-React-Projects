@@ -38,11 +38,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+
+    'corsheaders',
     'rest_framework',
     'account'
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -72,7 +75,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'authproject.wsgi.application'
 
-
+CORS_ALLOW_ALL_ORIGINS=True
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
@@ -102,6 +105,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_USER_MODEL="account.user"
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
@@ -126,3 +130,11 @@ STATICFILES_DIRS=[
     BASE_DIR / 'static'
 
 ]
+
+
+REST_FRAMEWORK = {
+    
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
