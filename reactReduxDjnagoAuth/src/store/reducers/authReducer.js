@@ -11,7 +11,6 @@ const authReducer = (state = initialState, action) => {
     case actionType.AUTH_START:
       return {
         ...state,
-        error: null,
         loading: true,
       };
 

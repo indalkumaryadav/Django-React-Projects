@@ -1,7 +1,6 @@
 import * as actionType from "./actionType";
 import axios from "axios";
 import { LOGIN, API } from "../../server";
-
 export const authStart = () => {
   return {
     type: actionType.AUTH_START,
@@ -31,10 +30,15 @@ export const authLogin = (email, password) => {
         password: password,
       })
       .then((response) => {
-        const token = response.data["access"];
-        localStorage.setItem("token", token);
+        console.log(response);
+        if (response.status === 200) {
+          const token = response.data["access"];
+          localStorage.setItem("token", token);
+          dispatch(authSuccess(token));
+          window.location.replace("/home");
+        }
       })
-      .then((error) => {
+      .catch((error) => {
         dispatch(authFail(error));
       });
   };
@@ -58,7 +62,7 @@ export const createUser = (email, password) => {
       .then((response) => {
         // const token = response.data["access"];
       })
-      .then((error) => {
+      .catch((error) => {
         dispatch(authFail(error));
       });
   };
