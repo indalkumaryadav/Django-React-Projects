@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
-import { authLogin } from "../store/actions/action";
+import { authLogin, authSuccess } from "../store/actions/action";
 import { useHistory } from "react-router-dom";
 
 const Login = () => {
@@ -13,7 +13,8 @@ const Login = () => {
     const email = data.email;
     const password = data.password;
     dispatch(authLogin(email, password));
-    history.push("/home");
+    const token = window.localStorage.getItem("token");
+    dispatch(authSuccess(token));
   };
 
   useEffect(() => {
