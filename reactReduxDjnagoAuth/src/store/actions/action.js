@@ -1,6 +1,8 @@
 import * as actionType from "./actionType";
 import axios from "axios";
 import { LOGIN, API } from "../../server";
+import { Redirect } from "react-router-dom";
+
 export const authStart = () => {
   return {
     type: actionType.AUTH_START,
