@@ -1,25 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import NavBar from "./components/Header/NavBar";
+import { Switch, Route } from "react-router-dom";
+import PageNotFound from "./components/PageNotFound";
+import Home from "./pages/HomePage/Home";
+import Login from "./pages/Account/Login";
+import Register from "./pages/Account/Register";
+import PrivateRoute from "./PrivateRoute";
+import GlobalStyle from "./style/GlobalStyle";
+import Search from "./pages/SearchPage/Search";
+import Profile from "./pages/Profile/Profile";
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <GlobalStyle />
+      <NavBar />
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/register" component={Register} />
+        <Route exact path="/profile" component={Profile} />
+        <Route exact path="/search/:q" component={Search} />
+        <Route component={PageNotFound} />
+      </Switch>
+    </>
   );
-}
+};
 
 export default App;
