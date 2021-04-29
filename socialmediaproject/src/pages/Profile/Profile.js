@@ -43,6 +43,7 @@ const Profile = () => {
           <div
             style={{
               display: "flex",
+              justifyContent: "space-between",
             }}
           >
             <div>followers</div>
