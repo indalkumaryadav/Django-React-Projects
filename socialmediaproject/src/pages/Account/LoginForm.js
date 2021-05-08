@@ -3,6 +3,10 @@ import PropTypes from "prop-types";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import { purple, green } from "@material-ui/core/colors";
 import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
+import { FaInstagram } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
+import { GrFacebook, GrTwitter } from "react-icons/gr";
+import FacebookLogin from "react-facebook-login";
 import {
   TextField,
   Button,
@@ -14,6 +18,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import { useHistory } from "react-router";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   loginButton: {
@@ -50,6 +55,24 @@ const LoginForm = () => {
   const handleChange = (event) => {
     console.log(event.target.checked);
     setChecked();
+  };
+
+  const facebookLogin = (accessToken) => {
+    axios
+      .post("http://127.0.0.1:8000/auth/convert-token/", {
+        token: accessToken,
+        backend: "facebook",
+        grant_type: "convert_token",
+        client_id: "Jvh1xtu7bAI8dIyQnYenpb6Jxk5krloDfHGKjzkn",
+        client_secret:
+          "LCHVgKDs9LGZIlL7mK84vvipPfYXBfWQ4gwKCYggjaXmCRHLwMCzBEo4d1BDNMnE7zCaRj8QXbd5IRBLxx1uKvs1JUM3sRYqG25Nqj7S7OGuoKbNztv5MKvPwk8nydG7",
+      })
+      .then((res) => console.log(res));
+  };
+
+  const responseFacebook = (response) => {
+    console.log(response);
+    facebookLogin(response.accessToken);
   };
   return (
     <form>
@@ -119,7 +142,6 @@ const LoginForm = () => {
             />
           </FormControl>
         </div>
-
         <div>
           <a
             style={{
@@ -133,7 +155,6 @@ const LoginForm = () => {
             Forget Password?
           </a>
         </div>
-
         <div
           style={{
             marginTop: 25,
@@ -149,6 +170,33 @@ const LoginForm = () => {
             Sign Up Now
           </Button>
         </div>
+        <Typography style={{ marginTop: 15 }}>OR</Typography>
+        {/* google */}
+        <Button
+          fullWidth
+          style={{
+            backgroundColor: "white",
+            border: "1px solid gray",
+            marginTop: 20,
+            textTransform: "capitalize",
+          }}
+        >
+          <FcGoogle
+            style={{
+              marginRight: 20,
+              fontSize: 20,
+            }}
+          />
+          Sign in with google
+        </Button>
+
+        <FacebookLogin
+          appId="478879533312384"
+          // autoLoad={true}
+          fields="name,email,picture"
+          // onClick={componentClicked}
+          callback={responseFacebook}
+        />
       </div>
     </form>
   );

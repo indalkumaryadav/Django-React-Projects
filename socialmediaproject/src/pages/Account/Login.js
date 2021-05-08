@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     marginTop: 10,
     width: 1000,
-    height: 600,
+    height: 750,
   },
 }));
 
