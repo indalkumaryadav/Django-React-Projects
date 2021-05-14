@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Avatar,
   Container,
@@ -21,6 +21,7 @@ const StoryContainer = styled.div`
 `;
 
 const Home = () => {
+  useEffect(() => {}, []);
   const history = useHistory();
   const [open, setOpen] = useState(false);
   const [state, setState] = useState([

@@ -3,10 +3,7 @@ import PropTypes from "prop-types";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import { purple, green } from "@material-ui/core/colors";
 import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
-import { FaInstagram } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
-import { GrFacebook, GrTwitter } from "react-icons/gr";
-import FacebookLogin from "react-facebook-login";
 import {
   TextField,
   Button,
@@ -18,8 +15,9 @@ import {
   Typography,
 } from "@material-ui/core";
 import { useHistory } from "react-router";
-import axios from "axios";
-
+import { useForm } from "react-hook-form";
+import { login } from "../../redux/actions/authAction";
+import { useDispatch, useSelector } from "react-redux";
 const useStyles = makeStyles((theme) => ({
   loginButton: {
     width: 250,
@@ -48,6 +46,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const LoginForm = () => {
+  const dispatch = useDispatch();
+  const auth = useSelector((state) => state.auth);
+  const { register, handleSubmit, errors } = useForm();
   const history = useHistory();
   const classes = useStyles();
   const [checked, setChecked] = useState(false);
@@ -56,26 +57,15 @@ const LoginForm = () => {
     console.log(event.target.checked);
     setChecked();
   };
-
-  const facebookLogin = (accessToken) => {
-    axios
-      .post("http://127.0.0.1:8000/auth/convert-token/", {
-        token: accessToken,
-        backend: "facebook",
-        grant_type: "convert_token",
-        client_id: "Jvh1xtu7bAI8dIyQnYenpb6Jxk5krloDfHGKjzkn",
-        client_secret:
-          "LCHVgKDs9LGZIlL7mK84vvipPfYXBfWQ4gwKCYggjaXmCRHLwMCzBEo4d1BDNMnE7zCaRj8QXbd5IRBLxx1uKvs1JUM3sRYqG25Nqj7S7OGuoKbNztv5MKvPwk8nydG7",
-      })
-      .then((res) => console.log(res));
+  const onSubmit = (data) => {
+    console.log(data);
+    const email = data.email;
+    const password = data.password;
+    dispatch(login(email, password));
   };
 
-  const responseFacebook = (response) => {
-    console.log(response);
-    facebookLogin(response.accessToken);
-  };
   return (
-    <form>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <Typography
         variant="h5"
         style={{
@@ -93,13 +83,22 @@ const LoginForm = () => {
       >
         login with your data that you entered during yuor registration.
       </Typography>
-      <TextField margin="normal" fullWidth label="Email" variant="outlined" />
       <TextField
+        name="email"
+        margin="normal"
+        fullWidth
+        label="Email"
+        variant="outlined"
+        inputRef={register}
+      />
+      <TextField
+        name="password"
         margin="normal"
         fullWidth
         label="Password"
         variant="outlined"
         type="password"
+        inputRef={register}
         InputProps={{
           endAdornment: (
             <IconButton onClick={handleChange}>
@@ -115,6 +114,7 @@ const LoginForm = () => {
         }}
       >
         <Button
+          type="submit"
           className={classes.loginButton}
           variant="contained"
           size="large"
@@ -189,14 +189,6 @@ const LoginForm = () => {
           />
           Sign in with google
         </Button>
-
-        <FacebookLogin
-          appId="478879533312384"
-          // autoLoad={true}
-          fields="name,email,picture"
-          // onClick={componentClicked}
-          callback={responseFacebook}
-        />
       </div>
     </form>
   );

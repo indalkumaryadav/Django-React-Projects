@@ -1,5 +1,5 @@
 import * as actionTypes from "./actionTypes";
-import authApi from "../../api/authApi";
+import { loginUser } from "../../api/authApi";
 
 export const loginStart = () => {
   return {
@@ -20,14 +20,16 @@ export const loginFail = (error) => {
   };
 };
 
-export const login = () => {
+export const login = (email, password) => {
   return (dispatch) => {
     dispatch(loginStart());
-    authApi
-      .loginUser()
-      .then((data) => {
-        console.log(data);
-        dispatch(loginSuccess(data));
+    loginUser(email, password)
+      .then((response) => {
+        if (response.status === 200) {
+          localStorage.setItem("access", response.data.access);
+          localStorage.setItem("refresh", response.data.refresh);
+          dispatch(loginSuccess(response.data));
+        }
       })
       .catch((error) => {
         console.log(error);
