@@ -156,6 +156,7 @@ AUTHENTICATION_BACKENDS = (
     'social_core.backends.facebook.FacebookOAuth2',
 
     # django-rest-framework-social-oauth2
+    # 
     'rest_framework_social_oauth2.backends.DjangoOAuth2',
 
     # Django
