@@ -1,0 +1,42 @@
+// LOGIN
+export const LOGIN_START = "LOGIN_START";
+export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
+export const LOGIN_FAIL = "LOGIN_FAIL";
+
+// REGISTER
+export const REGISTER_START = "REGISTER_START";
+export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
+export const REGISTER_FAIL = "REGISTER_FAIL";
+
+// LOGOUT
+export const LOGOUT_START = "LOGOUT_SUCCESS";
+export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
+export const LOGOUT_FAIL = "LOGOUT_FAIL";
+
+// USER
+export const GET_USER = "GET_USER";
+
+// USER PROFILE
+export const PROFILE_SUCCESS = "PROFILE_SUCCESS";
+
+// POST
+export const GET_POST = "GET_POST";
+
+export const CREATE_POST_START = "CREATE_POST_START";
+export const CREATE_POST_SUCCESS = "CREATE_POST_SUCCESS";
+
+// likes
+export const GET_LIKE_SUCCESS = "GET_LIKE_SUCCESS";
+
+export const ADD_LIKE_SUCCESS = "ADD_LIKE_SUCCESS";
+
+export const DELETE_LIKE_SUCCESS = "DELETE_LIKE_SUCCESS";
+
+// comment
+
+export const ADD_COMMENT_SUCCESS = "ADD_COMMENT_SUCCESS";
+
+// comment
+export const GET_STORY_SUCCESS = "GET_STORY_SUCCESS";
+
+export const ADD_STORY_SUCCESS = "ADD_STORY_SUCCESS";
