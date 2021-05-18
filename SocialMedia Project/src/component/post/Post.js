@@ -178,7 +178,7 @@ const Post = ({
             }}
           >
             {liked_by?.map((user, i) => {
-              console.log(user);
+              console.log(postComment);
               return (
                 <UserCard
                   key={i}

@@ -40,12 +40,15 @@ class Like(models.Model):
 
 
 class Comment(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,related_name="user_comment")
     post = models.ForeignKey(Post, on_delete=models.CASCADE,related_name="comment")
-    value = models.CharField(max_length=200)
+    title = models.CharField(max_length=200)
+    commented_by=models.ForeignKey(User, on_delete=models.CASCADE,related_name="commented_by")
+    profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE,related_name="comment_profile")
     create = models.DateTimeField(auto_now=True)
+
     def __str__(self):
-        return f"{ self.post }--{ self.user }--{ self.value }"
+        return f"{ self.post }- commented_by -{ self.user.email }"
 
 
 
