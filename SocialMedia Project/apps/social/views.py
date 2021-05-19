@@ -1,10 +1,14 @@
+from apps.account.serializers import UserSerializer
+import re
+from apps.userprofile.models import UserProfile
+from apps.userprofile.serializers import UserProfileSerializer
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from apps.account.models import User
-from .serializers import CommentSerializer, FollowerSerializer, PostSerializer,LikeSerializer, UserStorySerializer
+from .serializers import CommentSerializer, FollowerSerializer, FollowingSerializer, PostSerializer,LikeSerializer, UserStorySerializer
 from .models import Comment, Follower, Following, Post,Like, Story
 # Create your views here.
 
@@ -155,3 +159,49 @@ class FollowerAPIView(APIView):
         follower=Follower.objects.filter(user=request.user)
         follower_ser=FollowerSerializer(follower,many=True)
         return Response(follower_ser.data)
+
+class FollowingAPIView(APIView):
+    permission_classes=[IsAuthenticated]
+    authentication_classes=[JWTAuthentication]
+
+    def get(self,request,pk=None):
+        if pk is not None:
+            following=Following.objects.filter(id=pk)
+            print(following)
+
+            return Response({
+                'message':'success'
+            })
+        following_user=Following.objects.filter(user=request.user)
+        following_ser=FollowingSerializer(following_user,many=True,context={'request':request})
+        return Response(following_ser.data)
+    
+    def post(self,request):
+        user=User.objects.get(id=request.data['id'])
+        print(user)
+        following=Following.objects.filter(following_by=user)
+
+        if following:
+            following_by=Following.objects.filter(user=request.user).filter(following_by=user)
+            if(following_by):
+                return Response({
+                'error':True,
+                'message':'already following'
+            })
+            else:
+                Following.objects.create(
+                user=request.user,
+                following_by=user,
+            )
+            return Response({
+                'message':'following'
+            })
+        else:
+
+            Following.objects.create(
+                user=request.user,
+                following_by=user,
+            )
+            return Response({
+                'message':f'now you following {user}'
+            })

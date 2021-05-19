@@ -2,6 +2,7 @@ import * as actionTypes from "../actions/actionTypes";
 const userInitialState = {
   user: [],
   profile: [],
+  profileData: {},
 };
 const userReducer = (state = userInitialState, action) => {
   switch (action.type) {
@@ -14,6 +15,11 @@ const userReducer = (state = userInitialState, action) => {
       return {
         ...state,
         profile: action.payload,
+      };
+    case actionTypes.GET_PROFILE_SUCCESS:
+      return {
+        ...state,
+        profileData: action.payload,
       };
     default:
       return state;

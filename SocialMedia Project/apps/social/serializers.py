@@ -1,5 +1,7 @@
+from apps.userprofile.serializers import UserProfileSerializer
+from apps.account.serializers import UserSerializer
 from rest_framework import serializers
-from .models import Follower, Post,Story,Like,Comment
+from .models import Follower, Following, Post,Story,Like,Comment
 
 class PostSerializer(serializers.ModelSerializer):
     class Meta:
@@ -37,3 +39,12 @@ class FollowerSerializer(serializers.ModelSerializer):
     class Meta:
         model=Follower
         fields=["id","user","followed_by"]
+        
+
+class FollowingSerializer(serializers.ModelSerializer):
+    following_by=UserSerializer(read_only=True)
+
+    class Meta:
+        model=Following
+        fields=["id","following_by"]
+        depth=2

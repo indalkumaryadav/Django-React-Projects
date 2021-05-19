@@ -61,6 +61,8 @@ const RightSideBar = ({ handleMenu }) => {
             <div key={i}>
               {i <= 5 && (
                 <UserCard
+                  isFollowing={user?.following}
+                  userId={user?.id}
                   image={user.profile.user_image}
                   email={user.email}
                   username={user.username}
@@ -90,7 +92,9 @@ const RightSideBar = ({ handleMenu }) => {
             {allUser?.map((user, i) => {
               return (
                 <UserCard
+                  isFollowing={user?.following}
                   key={i}
+                  userId={user?.id}
                   image={user?.profile?.user_image}
                   email={user?.email}
                   username={user?.username}

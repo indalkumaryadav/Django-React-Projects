@@ -13,7 +13,11 @@ class ProfileAPIView(APIView):
     permission_classes=[IsAuthenticated]
     authentication_classes=[JWTAuthentication]
 
-    def get(self,request):
+    def get(self,request,pk=None):
+        if pk is not None:
+            user_obj=User.objects.get(id=pk)
+            user_ser=UserSerializer(user_obj,context={'request':request})
+            return Response(user_ser.data)
         user_obj=User.objects.get(id=request.user.id)
         user_ser=UserSerializer(user_obj,context={'request':request})
         return Response(user_ser.data)

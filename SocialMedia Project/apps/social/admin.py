@@ -10,7 +10,10 @@ class PostAdmin(admin.ModelAdmin):
 class LikeAdmin(admin.ModelAdmin):
     list_display=["user","post","liked_by"]
 
+@admin.register(Following)
+class FollowingAdmin(admin.ModelAdmin):
+    list_display=["id","following_by"]
+
 admin.site.register(Story)
 admin.site.register(Comment)
 admin.site.register(Follower)
-admin.site.register(Following)

@@ -34,7 +34,6 @@ const Post = ({
   const [comment, setComment] = useState(false);
   const [commentOpen, setCommentOpen] = useState(false);
   const dispatch = useDispatch();
-  const allUser = useSelector((state) => state.user.user);
   const user = useSelector((state) => state.user.profile);
 
   const likeUserPost = () => {
@@ -59,6 +58,7 @@ const Post = ({
       if (item?.liked_by?.email === user.email) {
         setLike(true);
       }
+      return;
     });
   }, []);
   return (
@@ -178,7 +178,6 @@ const Post = ({
             }}
           >
             {liked_by?.map((user, i) => {
-              console.log(postComment);
               return (
                 <UserCard
                   key={i}
