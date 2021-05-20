@@ -35,6 +35,12 @@ const followingReducer = (state = initialState, action) => {
         error: null,
         followingData: action.payload,
       };
+    // unfolllow user
+    case actionTypes.UN_FOLLOWING_SUCCESS:
+      return {
+        ...state,
+        followingData: action.payload,
+      };
     default:
       return state;
   }

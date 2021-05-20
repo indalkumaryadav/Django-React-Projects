@@ -7,10 +7,10 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Divider from "@material-ui/core/Divider";
 import InboxIcon from "@material-ui/icons/Inbox";
 import DraftsIcon from "@material-ui/icons/Drafts";
-
+import { motion } from "framer-motion";
 const MenuDiv = styled.div`
   height: 100vh;
-  width: 20%;
+  width: 18%;
   right: 0;
   top: 0;
   background-color: #8bc6ec;
@@ -18,7 +18,7 @@ const MenuDiv = styled.div`
   color: white;
   position: fixed;
   z-index: 1000;
-  margin-top: 60px;
+  margin-top: 59px;
 `;
 
 const Menu = () => {

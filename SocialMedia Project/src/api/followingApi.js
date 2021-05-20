@@ -27,3 +27,14 @@ export const addFollowing = async (userId) => {
     .then()
     .catch();
 };
+
+export const unFollowing = async (userId) => {
+  return axios
+    .delete(`http://127.0.0.1:8000/api/user/following/${userId}/`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    })
+    .then()
+    .catch();
+};

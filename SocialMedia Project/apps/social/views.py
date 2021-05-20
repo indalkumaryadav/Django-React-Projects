@@ -165,13 +165,14 @@ class FollowingAPIView(APIView):
     authentication_classes=[JWTAuthentication]
 
     def get(self,request,pk=None):
+        user=User.objects.get(id=1)
+        
+        print(user)
         if pk is not None:
-            following=Following.objects.filter(id=pk)
-            print(following)
-
             return Response({
-                'message':'success'
+                'message':'succcess'
             })
+     
         following_user=Following.objects.filter(user=request.user)
         following_ser=FollowingSerializer(following_user,many=True,context={'request':request})
         return Response(following_ser.data)
@@ -205,3 +206,12 @@ class FollowingAPIView(APIView):
             return Response({
                 'message':f'now you following {user}'
             })
+
+    def delete(self,request,pk=None):
+        user=User.objects.get(id=pk)
+        following=Following.objects.filter(user=request.user).filter(following_by=user)
+        following.delete()
+
+        return Response({
+            'message':'successfuly delete'
+        })

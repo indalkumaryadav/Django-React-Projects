@@ -22,10 +22,7 @@ const User = ({ post, follower, following, email, image }) => {
   const followingUser = useSelector((state) => state.following.data);
   const allUser = useSelector((state) => state.user.user);
   const user = useSelector((state) => state.user.profile);
-
   const dispatch = useDispatch();
-  const currentUserFollowingUserList = [];
-  const filterData = [];
 
   const currentUserPost = useSelector(
     (state) => state.post.post.current_user_post
@@ -34,25 +31,6 @@ const User = ({ post, follower, following, email, image }) => {
   useEffect(() => {
     dispatch(getUserFollowing());
     dispatch(getUserProfileById(1));
-    allUser?.filter((user) => {
-      if (user?.following?.length) {
-        user?.following?.map((item) => {
-          console.table(
-            "all user following list respectivally ===",
-            item.following_by.email
-          );
-          filterData.push(item?.following_by?.email);
-        });
-      }
-    });
-    user?.following?.map((item) => {
-      console.log("ff", item?.following_by);
-      currentUserFollowingUserList.push(item?.following_by?.email);
-    });
-    console.log(
-      "currentUserFollowingUserList email==",
-      currentUserFollowingUserList
-    );
   }, []);
 
   return (
@@ -194,6 +172,7 @@ const User = ({ post, follower, following, email, image }) => {
               return (
                 <UserCard
                   key={i}
+                  isFollowing={user?.following}
                   image={user.profile.user_image}
                   email={user.email}
                   username={user.username}
@@ -215,6 +194,8 @@ const User = ({ post, follower, following, email, image }) => {
               return (
                 <UserCard
                   key={i}
+                  userId={user?.id}
+                  isFollowing={user?.following}
                   image={item?.following_by?.profile?.user_image}
                   email={item?.following_by?.email}
                   username={item?.following_by?.username}

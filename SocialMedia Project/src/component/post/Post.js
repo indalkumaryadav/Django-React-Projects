@@ -58,7 +58,6 @@ const Post = ({
       if (item?.liked_by?.email === user.email) {
         setLike(true);
       }
-      return;
     });
   }, []);
   return (

@@ -18,6 +18,7 @@ import PopUp from "../common/PopUp";
 const RightSideBar = ({ handleMenu }) => {
   const [state, setState] = useState(false);
   const allUser = useSelector((state) => state.user.user);
+  const currentUser = useSelector((state) => state.user.profile);
 
   return (
     <>
@@ -92,7 +93,7 @@ const RightSideBar = ({ handleMenu }) => {
             {allUser?.map((user, i) => {
               return (
                 <UserCard
-                  isFollowing={user?.following}
+                  isFollowing={currentUser.following}
                   key={i}
                   userId={user?.id}
                   image={user?.profile?.user_image}

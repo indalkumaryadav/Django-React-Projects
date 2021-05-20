@@ -1,5 +1,9 @@
 import * as actionTypes from "./actionTypes";
-import { getFollowing, addFollowing } from "../../api/followingApi";
+import {
+  getFollowing,
+  addFollowing,
+  unFollowing,
+} from "../../api/followingApi";
 
 // get following user
 export const getFollowingStart = () => {
@@ -49,7 +53,28 @@ export function addUserFollowing(userId) {
     addFollowing(userId)
       .then((response) => {
         if (response.status === 200) {
-          dispatch(addFollowingSuccess);
+          dispatch(addFollowingSuccess(response.data));
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+}
+// unfollowing user
+export const unFollowingSuccess = (data) => {
+  return {
+    type: actionTypes.UN_FOLLOWING_SUCCESS,
+    payload: data,
+  };
+};
+
+export function unUserFollowing(userId) {
+  return function (dispatch) {
+    unFollowing(userId)
+      .then((response) => {
+        if (response.status === 200) {
+          dispatch(unFollowingSuccess(response.data));
         }
       })
       .catch((error) => {

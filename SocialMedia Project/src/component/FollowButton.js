@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from "react";
-import styled from "styled-components";
+import React, { useState, useEffect } from "react";
 import { Avatar, Button, IconButton, Typography } from "@material-ui/core";
+import styled from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
+import { addUserFollowing } from "../../redux/actions/followingAction";
+import { loadProfile } from "../../redux/actions/userAction";
+import { loadPost } from "../../redux/actions/postAction";
 import {
-  addUserFollowing,
   getUserFollowing,
   unUserFollowing,
 } from "../../redux/actions/followingAction";
-import { loadProfile } from "../../redux/actions/userAction";
-import { useDispatch, useSelector } from "react-redux";
 
 const UserCardDiv = styled.div`
   display: flex;
@@ -15,24 +16,30 @@ const UserCardDiv = styled.div`
   justify-content: space-between;
   width: 100%;
 `;
-const UserCard = ({ userId, email, username, image, isFollowing }) => {
+
+const UserCard = ({ isFollowing, userId, image, email, username }) => {
   const [name, setName] = useState(null);
   const [state, setState] = useState(false);
-  const dispatch = useDispatch();
+  const following = useSelector((state) => state.following);
+  const allUser = useSelector((state) => state.user.user);
   const user = useSelector((state) => state.user.profile);
+  const dispatch = useDispatch();
+  const filterData = [];
 
   const handleFollowing = () => {
     if (!state) {
       dispatch(addUserFollowing(userId));
       dispatch(loadProfile());
+      dispatch(loadPost());
+      dispatch(getUserFollowing());
       dispatch(getUserFollowing());
     } else {
       dispatch(unUserFollowing(userId));
-      dispatch(loadProfile());
       dispatch(getUserFollowing());
-      alert("now you are unfollowing");
+      dispatch(loadProfile());
     }
   };
+
   const handleState = () => {
     setState(!state);
     handleFollowing();
@@ -43,6 +50,9 @@ const UserCard = ({ userId, email, username, image, isFollowing }) => {
       const name = email.substring(0, email.lastIndexOf("@"));
       setName(name);
     }
+    isFollowing?.map((item) => {
+      setState(true);
+    });
   }, []);
 
   return (
@@ -68,6 +78,7 @@ const UserCard = ({ userId, email, username, image, isFollowing }) => {
           <Typography variant="subtitle2">{username}</Typography>
         </div>
       </div>
+
       {state ? (
         <Button
           style={{
@@ -88,7 +99,9 @@ const UserCard = ({ userId, email, username, image, isFollowing }) => {
             backgroundColor: "blue",
             color: "white",
           }}
-          onClick={handleState}
+          onClick={() => {
+            handleState();
+          }}
         >
           Follow
         </Button>

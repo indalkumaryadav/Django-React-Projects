@@ -4,7 +4,7 @@ import { getFollower } from "../../api/followerApi";
 // add Comment
 export const getFollowerSuccess = (data) => {
   return {
-    type: actionTypes.ADD_COMMENT_SUCCESS,
+    type: actionTypes.GET_FOLLOWING_SUCCESS,
     payload: data,
   };
 };
