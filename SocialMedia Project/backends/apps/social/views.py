@@ -211,14 +211,7 @@ class FollowingAPIView(APIView):
             })
 
     def delete(self,request,pk=None):
-        following_user=User.objects.get(id=pk)
-        following=Following.objects.filter(user=request.user)
-
-        for i in following:
-            delete_following=Following.objects.filter(user=following_user).filter(following_by=request.user)
-            delete_following.delete()
-        Following.objects.filter(user=following_user).filter(following_by=request.user)
-        delete_following.delete()
+        
         return Response({
             'message':'successfuly delete'
         })
