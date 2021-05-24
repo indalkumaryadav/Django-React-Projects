@@ -1,37 +1,37 @@
-import React, { useEffect, useState } from "react";
-import {
-  Avatar,
-  Container,
-  Divider,
-  Grid,
-  IconButton,
-  Typography,
-} from "@material-ui/core";
-import {} from "./style";
-import PopUp from "../common/PopUp";
-import { useSelector, useDispatch } from "react-redux";
-import PostCard from "../post/PostCard";
-import UserCard from "./UserCard";
-import { getUserFollowing } from "../../redux/actions/followingAction";
-import { getUserProfileById } from "../../redux/actions/userAction";
+import React, { useEffect, useState } from 'react';
+import { Avatar, Container, Divider, Grid, IconButton, Typography } from '@material-ui/core';
+import {} from './style';
+import PopUp from '../common/PopUp';
+import { useSelector, useDispatch } from 'react-redux';
+import PostCard from '../post/PostCard';
+import UserCard from './UserCard';
+import { getUserFollowing } from '../../redux/actions/followingAction';
+import { getUserProfileById } from '../../redux/actions/userAction';
+import UserProfile from '../profile/UserProfile';
+import { getUserFollower } from '../../redux/actions/followerAction';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-const User = ({ post, follower, following, email, image }) => {
+const User = ({ post, follower, bio, following, email, image, username }) => {
   const [postOpen, setPostOpen] = useState(false);
   const [followersOpen, setFollowsOpen] = useState(false);
   const [followingOpen, setFollowingOpen] = useState(false);
+  const [state, setState] = useState(false);
   const followingUser = useSelector((state) => state.following.data);
-  const allUser = useSelector((state) => state.user.user);
-  const user = useSelector((state) => state.user.profile);
   const dispatch = useDispatch();
-
-  const currentUserPost = useSelector(
-    (state) => state.post.post.current_user_post
-  );
+  const user = useSelector((state) => state.user.profile);
+  const followerUser = useSelector((state) => state.follower.data);
+  const postData = useSelector((state) => state.post.postData);
+  const currentUserPost = useSelector((state) => state.post.post.current_user_post);
 
   useEffect(() => {
     dispatch(getUserFollowing());
     dispatch(getUserProfileById(1));
-  }, []);
+    dispatch(getUserFollower());
+    if (postData?.message) {
+      return alert(postData?.message);
+    }
+  }, [postData]);
 
   return (
     <>
@@ -42,47 +42,52 @@ const User = ({ post, follower, following, email, image }) => {
       >
         <div
           style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
           }}
         >
-          <IconButton>
+          <IconButton
+            onClick={() => {
+              setState(true);
+            }}
+          >
             <Avatar
               src={image}
               style={{
-                height: 60,
-                width: 60,
+                height: 80,
+                width: 80,
               }}
             />
           </IconButton>
           <Typography
             variant="subtitle1"
             style={{
-              fontWeight: "bold",
+              fontWeight: 'bold',
             }}
           >
             {email}
           </Typography>
-          <Typography variant="subtitle2">Delhi, India</Typography>
+          <Typography variant="subtitle2">{username || 'admin'}</Typography>
+          <Typography variant="subtitle2">{bio}</Typography>
         </div>
 
         {/*  */}
         <div
           style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
             marginTop: 15,
           }}
         >
           <div
             style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              cursor: "pointer",
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              cursor: 'pointer',
             }}
             onClick={() => {
               setPostOpen(true);
@@ -90,7 +95,7 @@ const User = ({ post, follower, following, email, image }) => {
           >
             <Typography
               style={{
-                fontWeight: "bold",
+                fontWeight: 'bold',
               }}
             >
               {post}
@@ -99,10 +104,10 @@ const User = ({ post, follower, following, email, image }) => {
           </div>
           <div
             style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              cursor: "pointer",
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              cursor: 'pointer',
             }}
             onClick={() => {
               setFollowsOpen(true);
@@ -110,7 +115,7 @@ const User = ({ post, follower, following, email, image }) => {
           >
             <Typography
               style={{
-                fontWeight: "bold",
+                fontWeight: 'bold',
               }}
             >
               {follower}
@@ -119,10 +124,10 @@ const User = ({ post, follower, following, email, image }) => {
           </div>
           <div
             style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              cursor: "pointer",
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              cursor: 'pointer',
             }}
             onClick={() => {
               setFollowingOpen(true);
@@ -130,7 +135,7 @@ const User = ({ post, follower, following, email, image }) => {
           >
             <Typography
               style={{
-                fontWeight: "bold",
+                fontWeight: 'bold',
               }}
             >
               {following}
@@ -150,13 +155,31 @@ const User = ({ post, follower, following, email, image }) => {
           }}
         >
           <Grid container spacing={1}>
-            {currentUserPost?.map((item, i) => {
-              return (
-                <Grid key={i} item md={4}>
-                  <PostCard title={item?.title} image={item?.image} />
-                </Grid>
-              );
-            })}
+            {currentUserPost?.length ? (
+              currentUserPost?.map((item, i) => {
+                return (
+                  <Grid key={i} item md={4}>
+                    <PostCard
+                      postId={item?.id}
+                      post={currentUserPost}
+                      title={item?.title}
+                      image={item?.image}
+                    />
+                  </Grid>
+                );
+              })
+            ) : (
+              <div
+                style={{
+                  marginTop: 30,
+                  display: 'flex',
+                  justifyContent: 'center',
+                  width: 700,
+                }}
+              >
+                <h3>No Post yet</h3>
+              </div>
+            )}
           </Grid>
         </div>
       </PopUp>
@@ -168,14 +191,15 @@ const User = ({ post, follower, following, email, image }) => {
           }}
         >
           <Container>
-            {allUser?.map((user, i) => {
+            {followerUser?.map((item, i) => {
               return (
                 <UserCard
                   key={i}
-                  isFollowing={user?.following}
-                  image={user.profile.user_image}
-                  email={user.email}
-                  username={user.username}
+                  userId={item.followed_by.id}
+                  isFollowing={item?.followed_by}
+                  image={item?.followed_by?.profile?.user_image}
+                  email={item?.followed_by?.email}
+                  username={item?.followed_by?.username}
                 />
               );
             })}
@@ -205,6 +229,12 @@ const User = ({ post, follower, following, email, image }) => {
           </Container>
         </div>
       </PopUp>
+
+      <PopUp title={email} open={state} setOpen={setState}>
+        {state && <UserProfile userId={user?.id} />}
+      </PopUp>
+      {/*  */}
+      <ToastContainer />
     </>
   );
 };

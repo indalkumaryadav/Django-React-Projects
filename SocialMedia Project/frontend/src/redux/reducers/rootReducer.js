@@ -6,6 +6,8 @@ import likeReducer from "./likeReducer";
 import commentReducer from "./commentReducer";
 import storyReducer from "./storyReducer";
 import followingReducer from "./followingReducer";
+import followerReducer from "./followerReducer";
+import searchReducer from "./searchReducer";
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -15,6 +17,8 @@ const rootReducer = combineReducers({
   comment: commentReducer,
   story: storyReducer,
   following: followingReducer,
+  follower: followerReducer,
+  search: searchReducer,
 });
 
 export default rootReducer;

@@ -1,5 +1,10 @@
 import * as actionTypes from "./actionTypes";
-import { fetchUser, getProfile, getProfileById } from "../../api/userApi";
+import {
+  fetchUser,
+  getProfile,
+  getUserById,
+  updateProfile,
+} from "../../api/userApi";
 
 export const getUserSuccess = (data) => {
   return {
@@ -52,10 +57,32 @@ export const getProfileSuccessById = (data) => {
 
 export function getUserProfileById(id) {
   return function (dispatch) {
-    getProfileById(id)
+    getUserById(id)
       .then((response) => {
         if (response.status === 200) {
           dispatch(getProfileSuccessById(response.data));
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+}
+
+//update profile
+export const updateProfileSuccess = (data) => {
+  return {
+    type: actionTypes.UPDATE_PROFILE_SUCCESS,
+    payload: data,
+  };
+};
+
+export function updateUserProfile(userId, data) {
+  return function (dispatch) {
+    updateProfile(userId, data)
+      .then((response) => {
+        if (response.status === 200) {
+          dispatch(updateProfileSuccess(response.data));
         }
       })
       .catch((error) => {

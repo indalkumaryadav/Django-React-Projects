@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from "react";
-import styled from "styled-components";
-import { Avatar, Button, IconButton, Typography } from "@material-ui/core";
+import React, { useState, useEffect } from 'react';
+import { Avatar, Button, IconButton, Typography, Container, Paper } from '@material-ui/core';
+import styled from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux';
+import { loadProfile, getUserProfileById } from '../../redux/actions/userAction';
 import {
   addUserFollowing,
   getUserFollowing,
   unUserFollowing,
-} from "../../redux/actions/followingAction";
-import { loadProfile } from "../../redux/actions/userAction";
-import { useDispatch, useSelector } from "react-redux";
+} from '../../redux/actions/followingAction';
+import { motion } from 'framer-motion';
+import PopUp from '../common/PopUp';
+import UserProfile from '../profile/UserProfile';
 
 const UserCardDiv = styled.div`
   display: flex;
@@ -15,88 +18,104 @@ const UserCardDiv = styled.div`
   justify-content: space-between;
   width: 100%;
 `;
-const UserCard = ({ userId, email, username, image, isFollowing }) => {
-  const [name, setName] = useState(null);
-  const [state, setState] = useState(false);
+
+const UserCard = ({ userId, image, username, email }) => {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user.profile);
+  const userFollowing = useSelector((state) => state.following.data);
 
-  const handleFollowing = () => {
-    if (!state) {
-      dispatch(addUserFollowing(userId));
-      dispatch(loadProfile());
-      dispatch(getUserFollowing());
-    } else {
-      dispatch(unUserFollowing(userId));
-      dispatch(loadProfile());
-      dispatch(getUserFollowing());
-      alert("now you are unfollowing");
-    }
-  };
-  const handleState = () => {
-    setState(!state);
-    handleFollowing();
+  const [open, setOpen] = useState(false);
+  var name = email.substring(0, email.indexOf('@'));
+
+  const followUserId = [];
+  userFollowing.filter((data) => {
+    followUserId.push(data.following_by.id);
+  });
+  const [following, setFollowing] = useState(() => followUserId.includes(userId));
+
+  const unFollow = () => {
+    dispatch(unUserFollowing(userId));
+    dispatch(loadProfile());
+    dispatch(getUserFollowing());
+    alert('now you are unfollowing');
+    setFollowing(false);
   };
 
-  useEffect(() => {
-    if (email) {
-      const name = email.substring(0, email.lastIndexOf("@"));
-      setName(name);
-    }
-    if (isFollowing) {
-      setState(true);
-    }
-  }, []);
+  const handleFollow = () => {
+    dispatch(addUserFollowing(userId));
+    dispatch(loadProfile());
+    dispatch(getUserFollowing());
+    alert('now you are following');
+    setFollowing(true);
+  };
 
   return (
-    <UserCardDiv>
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-        }}
-      >
-        <IconButton>
-          <Avatar src={image} />
-        </IconButton>
-        <div>
-          <Typography
-            variant="subtitle1"
+    <>
+      <motion.div transition={{ duration: 0.5 }} whileHover={{ scale: 1.04 }}>
+        <UserCardDiv>
+          <div
             style={{
-              fontWeight: "bold",
+              display: 'flex',
+              alignItems: 'center',
             }}
           >
-            {name}
-          </Typography>
-          <Typography variant="subtitle2">{username}</Typography>
+            <IconButton
+              onClick={() => {
+                setOpen(true);
+              }}
+            >
+              <Avatar src={image} />
+            </IconButton>
+            <div>
+              <Typography
+                variant="subtitle1"
+                style={{
+                  fontWeight: 'bold',
+                }}
+              >
+                {name}
+              </Typography>
+              <Typography variant="subtitle2">{username}</Typography>
+            </div>
+          </div>
+          {following ? (
+            <Button
+              style={{
+                borderRadius: 50,
+                textTransform: 'capitalize',
+                backgroundColor: 'red',
+                color: 'white',
+              }}
+              onClick={unFollow}
+            >
+              Unfollow
+            </Button>
+          ) : (
+            <Button
+              style={{
+                borderRadius: 50,
+                textTransform: 'capitalize',
+                backgroundColor: 'blue',
+                color: 'white',
+              }}
+              onClick={handleFollow}
+            >
+              Follow
+            </Button>
+          )}
+        </UserCardDiv>
+      </motion.div>
+      <PopUp open={open} setOpen={setOpen}>
+        <div
+          style={{
+            width: 800,
+          }}
+        >
+          <Container>
+            <UserProfile userId={userId} />
+          </Container>
         </div>
-      </div>
-      {state ? (
-        <Button
-          style={{
-            borderRadius: 50,
-            textTransform: "capitalize",
-            backgroundColor: "red",
-            color: "white",
-          }}
-          onClick={handleState}
-        >
-          Unfollow
-        </Button>
-      ) : (
-        <Button
-          style={{
-            borderRadius: 50,
-            textTransform: "capitalize",
-            backgroundColor: "blue",
-            color: "white",
-          }}
-          onClick={handleState}
-        >
-          Follow
-        </Button>
-      )}
-    </UserCardDiv>
+      </PopUp>
+    </>
   );
 };
 

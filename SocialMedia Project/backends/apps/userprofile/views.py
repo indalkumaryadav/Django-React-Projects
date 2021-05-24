@@ -22,11 +22,11 @@ class ProfileAPIView(APIView):
         user_ser=UserSerializer(user_obj,context={'request':request})
         return Response(user_ser.data)
        
-    def put(self,request,pk):
-        profile=UserProfile.objects.get(user=request.user)
+    def patch(self,request,pk=None):
+        profile=UserProfile.objects.get(id=pk)
         profile_ser=UserProfileSerializer(profile,data=request.data ,partial=True,context={'request':request})
         if profile_ser.is_valid():
             profile_ser.save()
-            return Response(profile_ser.data)
+            return Response({'error':False,'message':'successfully updated!'})
         return Response(profile_ser.errors)
     

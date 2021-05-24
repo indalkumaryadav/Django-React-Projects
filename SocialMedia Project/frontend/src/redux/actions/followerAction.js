@@ -1,17 +1,16 @@
 import * as actionTypes from "./actionTypes";
 import { getFollower } from "../../api/followerApi";
 
-// add Comment
 export const getFollowerSuccess = (data) => {
   return {
-    type: actionTypes.GET_FOLLOWING_SUCCESS,
+    type: actionTypes.GET_FOLLOWER_SUCCESS,
     payload: data,
   };
 };
 
-export function getFollower(id, title) {
+export function getUserFollower() {
   return function (dispatch) {
-    addComment(id, title)
+    getFollower()
       .then((response) => {
         if (response.status === 200) {
           dispatch(getFollowerSuccess(response.data));

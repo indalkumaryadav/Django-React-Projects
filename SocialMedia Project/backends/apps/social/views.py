@@ -1,3 +1,4 @@
+from functools import partial
 from apps.account.serializers import UserSerializer
 import re
 from apps.userprofile.models import UserProfile
@@ -10,6 +11,7 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from apps.account.models import User
 from .serializers import CommentSerializer, FollowerSerializer, FollowingSerializer, PostSerializer,LikeSerializer, UserStorySerializer
 from .models import Comment, Follower, Following, Post,Like, Story
+from django.db.models import Q
 # Create your views here.
 
 class PostAPIView(APIView):
@@ -45,15 +47,33 @@ class PostAPIView(APIView):
                 'error':False,
                 'message':"post added succesfully!",
             })
+    
+    def patch(self,request,pk=None):
+        post=Post.objects.get(id=pk)
+        print(request.data)
+        post_ser=PostSerializer(post,data=request.data,partial=True)
+        if post_ser.is_valid():
+            post_ser.save()
+            return Response({
+                'data':post_ser.data,
+                'message':'successfully updated!',
+                })
+        return Response({
+                'message':'somethings went wrong. try again!',
+                })
+    
+    def delete(self,request,pk=None):
+        post=Post.objects.filter(user=request.user).filter(id=pk)
+        post.delete()
+        return Response({'message':'Success'})
 
 
 class LikeAPIView(APIView):
     permission_classes=[IsAuthenticated]
     authentication_classes=[JWTAuthentication]
 
-    def get(self,request,id=None):
-        post=Post.objects.get(id=id)
-        like=Like.objects.filter(user=request.user).filter(post=post)
+    def get(self,request):
+        like=Like.objects.all()#.filter(post=post)user=request.user
         like_ser=LikeSerializer(like,many=True)
         return Response(like_ser.data)
     
@@ -136,6 +156,7 @@ class StoryAPIView(APIView):
     authentication_classes=[JWTAuthentication]
 
     def get(self,request):
+        
         user_obj=Story.objects.filter(user=request.user)
         user_story_ser=UserStorySerializer(user_obj,many=True,context={
             'request':request
@@ -159,7 +180,9 @@ class FollowerAPIView(APIView):
 
     def get(self,request):
         follower=Follower.objects.filter(user=request.user)
-        follower_ser=FollowerSerializer(follower,many=True)
+        follower_ser=FollowerSerializer(follower,many=True,context={
+            'request':request
+        })
         return Response(follower_ser.data)
 
 class FollowingAPIView(APIView):
@@ -167,13 +190,6 @@ class FollowingAPIView(APIView):
     authentication_classes=[JWTAuthentication]
 
     def get(self,request,pk=None):
-        user=User.objects.get(id=1)
-        
-        if pk is not None:
-            return Response({
-                'message':'succcess'
-            })
-     
         following_user=Following.objects.filter(user=request.user)
         following_ser=FollowingSerializer(following_user,many=True,context={'request':request})
         return Response(following_ser.data)
@@ -211,7 +227,20 @@ class FollowingAPIView(APIView):
             })
 
     def delete(self,request,pk=None):
-        
+        user=User.objects.get(id=pk)
+        following=Following.objects.filter(user=request.user).filter(following_by=user)
+        following.delete()
         return Response({
             'message':'successfuly delete'
         })
+
+
+class SearchAPIView(APIView):
+    permission_classes=[IsAuthenticated]
+    authentication_classes=[JWTAuthentication]
+
+    def get(self, request, q):
+        data = {}
+        user=User.objects.filter(Q(username__icontains=q) | Q(email__icontains=q))
+        user_ser=UserSerializer(user,many=True,context={'request': request})
+        return Response(user_ser.data)

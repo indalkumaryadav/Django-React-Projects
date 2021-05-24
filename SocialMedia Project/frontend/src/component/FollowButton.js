@@ -1,113 +1,201 @@
 import React, { useState, useEffect } from "react";
-import { Avatar, Button, IconButton, Typography } from "@material-ui/core";
-import styled from "styled-components";
-import { useDispatch, useSelector } from "react-redux";
-import { addUserFollowing } from "../../redux/actions/followingAction";
-import { loadProfile } from "../../redux/actions/userAction";
-import { loadPost } from "../../redux/actions/postAction";
 import {
-  getUserFollowing,
-  unUserFollowing,
-} from "../../redux/actions/followingAction";
-
-const UserCardDiv = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-`;
-
-const UserCard = ({ isFollowing, userId, image, email, username }) => {
-  const [name, setName] = useState(null);
-  const [state, setState] = useState(false);
-  const following = useSelector((state) => state.following);
-  const allUser = useSelector((state) => state.user.user);
-  const user = useSelector((state) => state.user.profile);
+  Paper,
+  Typography,
+  Avatar,
+  IconButton,
+  Container,
+  Divider,
+} from "@material-ui/core";
+import FavoriteIcon from "@material-ui/icons/Favorite";
+import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
+import TelegramIcon from "@material-ui/icons/Telegram";
+import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
+import PopUp from "../common/PopUp";
+import { MainDiv } from "./style";
+import Comment from "../../component/comment/Comment";
+import { useSelector, useDispatch } from "react-redux";
+import UserCard from "../user/UserCard";
+import { addPostLike, removeLike } from "../../redux/actions/likeAction";
+import { loadPost } from "../../redux/actions/postAction";
+import CommentCard from "../comment/CommentCard";
+const Post = ({
+  userName,
+  userImage,
+  postComment,
+  postLike,
+  image,
+  title,
+  id,
+  liked_by,
+}) => {
+  const [open, setOpen] = useState(false);
+  const [comment, setComment] = useState(false);
+  const [commentOpen, setCommentOpen] = useState(false);
   const dispatch = useDispatch();
-  const filterData = [];
+  const userData = useSelector((state) => state.user.profile);
+  const [like, setLike] = useState(() => filterData.includes(userId));
 
-  const handleFollowing = () => {
-    if (!state) {
-      dispatch(addUserFollowing(userId));
-      dispatch(loadProfile());
+  const likeUserPost = () => {
+    if (!like) {
+      dispatch(addPostLike(id));
       dispatch(loadPost());
-      dispatch(getUserFollowing());
-      dispatch(getUserFollowing());
     } else {
-      dispatch(unUserFollowing(userId));
-      dispatch(getUserFollowing());
-      dispatch(loadProfile());
+      dispatch(removeLike(id));
+      dispatch(loadPost());
     }
   };
 
-  const handleState = () => {
-    setState(!state);
-    handleFollowing();
+  const handleLike = () => {
+    setLike(!like);
+    likeUserPost();
   };
-
-  useEffect(() => {
-    if (email) {
-      const name = email.substring(0, email.lastIndexOf("@"));
-      setName(name);
-    }
-    isFollowing?.map((item) => {
-      setState(true);
-    });
-  }, []);
+  const handleComment = () => {
+    setComment(!comment);
+  };
 
   return (
-    <UserCardDiv>
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-        }}
-      >
-        <IconButton>
-          <Avatar src={image} />
-        </IconButton>
-        <div>
-          <Typography
-            variant="subtitle1"
+    <>
+      <MainDiv>
+        <Paper
+          style={{
+            marginBottom: 10,
+          }}
+        >
+          <div
             style={{
-              fontWeight: "bold",
+              display: "flex",
+              alignItems: "center",
             }}
           >
-            {name}
-          </Typography>
-          <Typography variant="subtitle2">{username}</Typography>
-        </div>
-      </div>
+            <IconButton>
+              <Avatar src={userImage} />
+            </IconButton>
+            <Typography>{userName}</Typography>
+          </div>
+          <img
+            src={image}
+            style={{
+              width: "100%",
+              cursor: "pointer",
+            }}
+            alt=""
+          />
+          {/*  */}
+          <div>
+            <IconButton onClick={handleLike}>
+              {like ? (
+                <FavoriteIcon style={{ color: "red" }} />
+              ) : (
+                <FavoriteBorderIcon />
+              )}
+            </IconButton>
+            {/*  */}
+            <IconButton onClick={handleComment}>
+              <ChatBubbleIcon />
+            </IconButton>
+            {/*  */}
+            <IconButton>
+              <TelegramIcon />
+            </IconButton>
+          </div>
+          {/*  */}
+          <Container
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginTop: 4,
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <Typography
+                style={{
+                  fontWeight: "bold",
+                  textDecoration: "underline",
+                  cursor: "pointer",
+                  marginBottom: 15,
+                }}
+                variant="subtitle2"
+                onClick={() => setOpen(true)}
+              >
+                {postLike?.length}
+                <span> Likes</span>
+              </Typography>
+            </div>
+            <Typography
+              onClick={() => setCommentOpen(true)}
+              variant="subtitle2"
+              style={{
+                fontWeight: "bold",
+                textDecoration: "underline",
+                cursor: "pointer",
+                marginBottom: 15,
+              }}
+            >
+              {postComment?.length} Comments
+            </Typography>
+          </Container>
+          <Divider
+            style={{
+              opecity: "0.5",
+            }}
+          />
 
-      {state ? (
-        <Button
-          style={{
-            borderRadius: 50,
-            textTransform: "capitalize",
-            backgroundColor: "red",
-            color: "white",
-          }}
-          onClick={handleState}
+          <Container
+            style={{
+              padding: 10,
+            }}
+          >
+            <Typography>{title}</Typography>
+          </Container>
+
+          {/* post comment */}
+          {comment && (
+            <Container>
+              <Comment id={id} setComment={setComment} />
+            </Container>
+          )}
+        </Paper>
+
+        {/* likes */}
+        <PopUp title="All Likes " open={open} setOpen={setOpen}>
+          <div
+            style={{
+              width: 500,
+            }}
+          >
+            {liked_by?.map((user, i) => {
+              return (
+                <UserCard
+                  key={i}
+                  image={user?.profile?.user_image}
+                  email={user.user?.email}
+                  username={user.user?.username}
+                />
+              );
+            })}
+          </div>
+        </PopUp>
+        {/* comments */}
+        <PopUp
+          title="All Comments "
+          open={commentOpen}
+          setOpen={setCommentOpen}
         >
-          Unfollow
-        </Button>
-      ) : (
-        <Button
-          style={{
-            borderRadius: 50,
-            textTransform: "capitalize",
-            backgroundColor: "blue",
-            color: "white",
-          }}
-          onClick={() => {
-            handleState();
-          }}
-        >
-          Follow
-        </Button>
-      )}
-    </UserCardDiv>
+          <CommentCard content="good pic" />
+          <CommentCard content="good pic" />
+          <CommentCard content="good pic" />
+          <CommentCard content="good pic" />
+        </PopUp>
+      </MainDiv>
+    </>
   );
 };
 
-export default UserCard;
+export default Post;

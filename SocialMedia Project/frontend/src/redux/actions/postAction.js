@@ -1,5 +1,10 @@
 import * as actionTypes from "./actionTypes";
-import { fetchPost, createPost } from "../../api/postApi";
+import {
+  fetchPost,
+  createPost,
+  deletePost,
+  updatePost,
+} from "../../api/postApi";
 
 export const getPostSuccess = (data) => {
   return {
@@ -43,10 +48,52 @@ export function addPost(formData) {
       .then((response) => {
         if (response.status === 200) {
           if (response.data.error === false) {
-            console.log(response.data);
             dispatch(createPostSuccess(response.data));
             dispatch(loadPost());
           }
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+}
+// update post
+export const updatePostSuccess = (data) => {
+  return {
+    type: actionTypes.UPDATE_POST_SUCCESS,
+    payload: data,
+  };
+};
+
+export function updateUserPost(postId, data) {
+  return function (dispatch) {
+    updatePost(postId, data)
+      .then((response) => {
+        if (response.status === 200) {
+          dispatch(updatePostSuccess(response.data));
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+}
+
+// delete post
+export const deletePostSuccess = (data) => {
+  return {
+    type: actionTypes.DELETE_POST_SUCCESS,
+    payload: data,
+  };
+};
+
+export function deleteUserPost(postId) {
+  return function (dispatch) {
+    deletePost(postId)
+      .then((response) => {
+        if (response.status === 200) {
+          dispatch(deletePostSuccess(response.data));
         }
       })
       .catch((error) => {

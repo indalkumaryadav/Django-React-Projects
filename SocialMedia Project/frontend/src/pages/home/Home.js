@@ -19,6 +19,8 @@ import { loadUser, loadProfile } from "../../redux/actions/userAction";
 import { loadPost } from "../../redux/actions/postAction";
 import Menu from "../../component/Menu";
 import { getUserStory } from "../../redux/actions/storyAction";
+import { getLikeData } from "../../redux/actions/likeAction";
+import { Helmet } from "react-helmet";
 
 const Home = () => {
   const [openMenu, setOpenMenu] = useState(false);
@@ -28,6 +30,7 @@ const Home = () => {
   const currentUserPost = userPost?.current_user_post;
   const followingUserPost = userPost?.following_post;
   const currentUserProfile = useSelector((state) => state.user.profile);
+
   const handleMenu = () => {
     setOpenMenu(!openMenu);
   };
@@ -36,13 +39,17 @@ const Home = () => {
     dispatch(loadProfile());
     dispatch(loadPost());
     dispatch(getUserStory());
+    dispatch(getLikeData());
   }, []);
 
   return (
     <>
+      <Helmet>
+        <title>Home</title>
+      </Helmet>
       <MainDiv>
         <LeftDiv>
-          <LeftSideBar />
+          <LeftSideBar setOpenMenu={setOpenMenu} />
         </LeftDiv>
         <CenterDiv>
           <NavBar />
@@ -80,7 +87,7 @@ const Home = () => {
                 return (
                   <Post
                     key={i}
-                    liked_by={item.like}
+                    liked_by={item?.like}
                     id={item?.id}
                     postLike={item?.like}
                     postComment={item?.comment}
@@ -97,10 +104,11 @@ const Home = () => {
               currentUserPost?.map((post, i) => {
                 return (
                   <Post
+                    userId={post?.user?.id}
                     key={i}
-                    liked_by={post?.like}
                     id={post?.id}
                     postLike={post?.like}
+                    liked_by={post?.like}
                     postComment={post?.comment}
                     image={post?.image}
                     title={post?.title}
@@ -115,7 +123,7 @@ const Home = () => {
           <RightSidebar handleMenu={handleMenu} />
         </RightDiv>
       </MainDiv>
-      {openMenu && <Menu />}
+      {openMenu && <Menu setOpenMenu={setOpenMenu} />}
     </>
   );
 };

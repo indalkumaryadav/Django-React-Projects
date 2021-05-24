@@ -3,6 +3,7 @@ const userInitialState = {
   user: [],
   profile: [],
   profileData: {},
+  data: {},
 };
 const userReducer = (state = userInitialState, action) => {
   switch (action.type) {
@@ -20,6 +21,11 @@ const userReducer = (state = userInitialState, action) => {
       return {
         ...state,
         profileData: action.payload,
+      };
+    case actionTypes.UPDATE_PROFILE_SUCCESS:
+      return {
+        ...state,
+        data: action.payload,
       };
     default:
       return state;

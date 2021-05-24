@@ -18,15 +18,15 @@ const CommentCard = ({ image, content, email }) => {
           <Avatar src={image} />
         </IconButton>
         <div>
+          <Typography variant="subtitle1">{email}</Typography>
           <Typography
-            variant="subtitle1"
+            variant="subtitle2"
             style={{
               fontWeight: "bold",
             }}
           >
-            indalkumar
+            {content}
           </Typography>
-          <Typography variant="subtitle2">{content}</Typography>
         </div>
       </div>
     </div>

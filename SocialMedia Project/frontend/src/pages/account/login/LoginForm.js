@@ -24,6 +24,7 @@ import { useForm } from "react-hook-form";
 import { login } from "../../../redux/actions/authAction";
 import { useDispatch, useSelector } from "react-redux";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import { Alert, AlertTitle } from "@material-ui/lab";
 
 const LoginForm = () => {
   const history = useHistory();
@@ -43,11 +44,6 @@ const LoginForm = () => {
     dispatch(login(email, password));
   };
 
-  useEffect(() => {
-    if (auth.error) {
-      alert(auth.error.response.data.detail);
-    }
-  }, [auth.error]);
   if (auth.isAuthenticated) {
     return <Redirect to="/" />;
   }
@@ -55,6 +51,19 @@ const LoginForm = () => {
   return (
     <>
       <div>
+        {auth.error && (
+          <Alert
+            severity="error"
+            style={{
+              marginTop: 10,
+              marginBottom: 10,
+            }}
+          >
+            <AlertTitle>Error</AlertTitle>
+            {auth?.error?.response?.data?.detail} —{" "}
+            <strong>check it out!</strong>
+          </Alert>
+        )}
         <form onSubmit={handleSubmit(onSubmit)}>
           <TextField
             name="email"

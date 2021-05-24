@@ -8,9 +8,9 @@ export const getLikeSuccess = (data) => {
   };
 };
 
-export function getLikeData(id) {
+export function getLikeData() {
   return function (dispatch) {
-    getLike(id)
+    getLike()
       .then((response) => {
         if (response.status === 200) {
           dispatch(getLikeSuccess(response.data));

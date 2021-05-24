@@ -4,9 +4,12 @@ import { MainDiv, SearchInput, SearchDiv, CreatePostButton } from "./style";
 import SearchIcon from "@material-ui/icons/Search";
 import PopUp from "../common/PopUp";
 import CreatePost from "../post/CreatePost";
+import { useHistory } from "react-router-dom";
 
 const NavBar = () => {
   const [createPostDialog, setCreatePostDialog] = useState(false);
+  const history = useHistory();
+  const [content, setContent] = useState("");
   return (
     <>
       <MainDiv>
@@ -18,10 +21,17 @@ const NavBar = () => {
             maxWidth: "90%",
           }}
         >
-          <form>
+          <form
+            onSubmit={() => {
+              history.push(`/${content}`);
+            }}
+          >
             <SearchDiv>
               <SearchIcon style={{ color: "white" }} />
-              <SearchInput placeholder="Search" />
+              <SearchInput
+                onChange={(e) => setContent(e.target.value)}
+                placeholder="Search user"
+              />
             </SearchDiv>
           </form>
           <CreatePostButton onClick={() => setCreatePostDialog(true)}>

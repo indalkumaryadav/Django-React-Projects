@@ -8,6 +8,8 @@ import {
   DialogTitle,
   IconButton,
   makeStyles,
+  DialogActions,
+  Button,
 } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
@@ -41,7 +43,11 @@ const PopUp = (props) => {
         >
           <div>{title}</div>
           <div>
-            <motion.div animate={{ rotate: 360 }} transition={{ duration: 2 }}>
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 0.5 }}
+              whileHover={{ scale: 1.3, opacity: 0.8 }}
+            >
               <IconButton
                 style={{
                   backgroundColor: "red",

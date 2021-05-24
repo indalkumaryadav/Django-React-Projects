@@ -1,4 +1,8 @@
 import React, { useState, useEffect } from "react";
+import FavoriteIcon from "@material-ui/icons/Favorite";
+import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
+import TelegramIcon from "@material-ui/icons/Telegram";
+import { MainDiv } from "./style";
 import {
   Paper,
   Typography,
@@ -7,18 +11,20 @@ import {
   Container,
   Divider,
 } from "@material-ui/core";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
-import TelegramIcon from "@material-ui/icons/Telegram";
 import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
-import PopUp from "../common/PopUp";
-import { MainDiv } from "./style";
-import Comment from "../../component/comment/Comment";
-import { useSelector, useDispatch } from "react-redux";
-import UserCard from "../user/UserCard";
-import { addPostLike, removeLike } from "../../redux/actions/likeAction";
 import { loadPost } from "../../redux/actions/postAction";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  addPostLike,
+  removeLike,
+  getLikeData,
+} from "../../redux/actions/likeAction";
+import Comment from "../../component/comment/Comment";
 import CommentCard from "../comment/CommentCard";
+import PopUp from "../common/PopUp";
+import UserCard from "../user/UserCard";
+import UserProfile from "../profile/UserProfile";
+
 const Post = ({
   userName,
   userImage,
@@ -28,13 +34,18 @@ const Post = ({
   title,
   id,
   liked_by,
+  userId,
 }) => {
   const [open, setOpen] = useState(false);
-  const [like, setLike] = useState(false);
   const [comment, setComment] = useState(false);
   const [commentOpen, setCommentOpen] = useState(false);
+  const [state, setState] = useState(false);
   const dispatch = useDispatch();
+  const [like, setLike] = useState(false);
   const user = useSelector((state) => state.user.profile);
+  const currentUserPost = useSelector(
+    (state) => state.post.post.current_user_post
+  );
 
   const likeUserPost = () => {
     if (!like) {
@@ -53,6 +64,7 @@ const Post = ({
   const handleComment = () => {
     setComment(!comment);
   };
+
   useEffect(() => {
     liked_by?.filter((item) => {
       if (item?.liked_by?.email === user.email) {
@@ -74,7 +86,7 @@ const Post = ({
               alignItems: "center",
             }}
           >
-            <IconButton>
+            <IconButton onClick={() => setState(true)}>
               <Avatar src={userImage} />
             </IconButton>
             <Typography>{userName}</Typography>
@@ -96,13 +108,8 @@ const Post = ({
                 <FavoriteBorderIcon />
               )}
             </IconButton>
-            {/*  */}
             <IconButton onClick={handleComment}>
               <ChatBubbleIcon />
-            </IconButton>
-            {/*  */}
-            <IconButton>
-              <TelegramIcon />
             </IconButton>
           </div>
           {/*  */}
@@ -168,15 +175,17 @@ const Post = ({
             </Container>
           )}
         </Paper>
+      </MainDiv>
 
-        {/* likes */}
-        <PopUp title="All Likes " open={open} setOpen={setOpen}>
-          <div
-            style={{
-              width: 500,
-            }}
-          >
-            {liked_by?.map((user, i) => {
+      {/* likes */}
+      <PopUp title="All Likes " open={open} setOpen={setOpen}>
+        <div
+          style={{
+            width: 500,
+          }}
+        >
+          {postLike.length ? (
+            liked_by?.map((user, i) => {
               return (
                 <UserCard
                   key={i}
@@ -185,21 +194,40 @@ const Post = ({
                   username={user.user?.username}
                 />
               );
-            })}
-          </div>
-        </PopUp>
-        {/* comments */}
-        <PopUp
-          title="All Comments "
-          open={commentOpen}
-          setOpen={setCommentOpen}
+            })
+          ) : (
+            <h4>No likes</h4>
+          )}
+        </div>
+      </PopUp>
+      {/* comments */}
+      <PopUp title="All Comments " open={commentOpen} setOpen={setCommentOpen}>
+        <div
+          style={{
+            width: 400,
+          }}
         >
-          <CommentCard content="good pic" />
-          <CommentCard content="good pic" />
-          <CommentCard content="good pic" />
-          <CommentCard content="good pic" />
-        </PopUp>
-      </MainDiv>
+          {postComment.length ? (
+            postComment?.map((comment, i) => {
+              return (
+                <CommentCard
+                  key={i}
+                  image={comment?.profile?.user_image}
+                  email={comment.user?.email}
+                  username={comment.user?.username}
+                  content={comment.title}
+                />
+              );
+            })
+          ) : (
+            <h4>No Comment</h4>
+          )}
+        </div>
+      </PopUp>
+
+      <PopUp title={user.email} open={state} setOpen={setState}>
+        {state && <UserProfile userId={userId} />}
+      </PopUp>
     </>
   );
 };

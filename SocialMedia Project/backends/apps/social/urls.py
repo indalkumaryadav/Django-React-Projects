@@ -1,9 +1,10 @@
 from django.contrib import admin
 from django.urls import path
-from .views import CommentAPIView, FollowerAPIView, FollowingAPIView, PostAPIView,LikeAPIView, StoryAPIView
+from .views import CommentAPIView, FollowerAPIView, FollowingAPIView, PostAPIView,LikeAPIView, SearchAPIView, StoryAPIView
 
 urlpatterns = [
     path('user/post/',PostAPIView.as_view() ),
+    path('user/post/<int:pk>/',PostAPIView.as_view() ),
 
     # likes
     path('post/likes/',LikeAPIView.as_view() ),
@@ -22,4 +23,8 @@ urlpatterns = [
     # followers
     path('user/following/',FollowingAPIView.as_view() ),
     path('user/following/<int:pk>/',FollowingAPIView.as_view() ),
+
+    # search
+    path('users/<str:q>/',SearchAPIView.as_view() ),
+
 ]

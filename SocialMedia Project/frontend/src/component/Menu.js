@@ -8,6 +8,9 @@ import Divider from "@material-ui/core/Divider";
 import InboxIcon from "@material-ui/icons/Inbox";
 import DraftsIcon from "@material-ui/icons/Drafts";
 import { motion } from "framer-motion";
+import CloseIcon from "@material-ui/icons/Close";
+import { IconButton } from "@material-ui/core";
+
 const MenuDiv = styled.div`
   height: 100vh;
   width: 18%;
@@ -17,13 +20,29 @@ const MenuDiv = styled.div`
   background-image: linear-gradient(135deg, #8bc6ec 0%, #9599e2 100%);
   color: white;
   position: fixed;
-  z-index: 1000;
-  margin-top: 59px;
+  z-index: 9999;
 `;
 
-const Menu = () => {
+const Menu = ({ openMenu, setOpenMenu }) => {
   return (
     <MenuDiv>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "flex-end",
+          alignItems: "center",
+          marginRight: 10,
+        }}
+      >
+        <IconButton
+          style={{
+            color: "white",
+          }}
+          onClick={() => setOpenMenu(false)}
+        >
+          <CloseIcon />
+        </IconButton>
+      </div>
       <List component="nav" aria-label="main mailbox folders">
         <ListItem button>
           <ListItemIcon>

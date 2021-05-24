@@ -1,24 +1,17 @@
-import {
-  Container,
-  Divider,
-  IconButton,
-  Typography,
-  Button,
-} from "@material-ui/core";
-import React, { useState } from "react";
-import { RightDiv } from "./style";
-import MenuIcon from "@material-ui/icons/Menu";
-import TelegramIcon from "@material-ui/icons/Telegram";
-import NotificationsIcon from "@material-ui/icons/Notifications";
-import UserCard from "../user/UserCard";
-import { useSelector } from "react-redux";
-import DoubleArrowIcon from "@material-ui/icons/DoubleArrow";
-import PopUp from "../common/PopUp";
+import { Container, Divider, IconButton, Typography, Button } from '@material-ui/core';
+import React, { useState } from 'react';
+import { RightDiv } from './style';
+import MenuIcon from '@material-ui/icons/Menu';
+import TelegramIcon from '@material-ui/icons/Telegram';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import UserCard from '../user/UserCard';
+import { useSelector } from 'react-redux';
+import DoubleArrowIcon from '@material-ui/icons/DoubleArrow';
+import PopUp from '../common/PopUp';
 
 const RightSideBar = ({ handleMenu }) => {
   const [state, setState] = useState(false);
   const allUser = useSelector((state) => state.user.user);
-  const currentUser = useSelector((state) => state.user.profile);
 
   return (
     <>
@@ -26,18 +19,12 @@ const RightSideBar = ({ handleMenu }) => {
         <Container>
           <div
             style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'flex-end',
               marginBottom: 10,
             }}
           >
-            <IconButton>
-              <TelegramIcon />
-            </IconButton>
-            <IconButton>
-              <NotificationsIcon />
-            </IconButton>
             <IconButton
               onClick={() => {
                 handleMenu();
@@ -52,7 +39,7 @@ const RightSideBar = ({ handleMenu }) => {
         <Typography
           style={{
             padding: 10,
-            fontWeight: "bold",
+            fontWeight: 'bold',
           }}
         >
           Suggestion for you

@@ -23,6 +23,7 @@ import { useForm } from "react-hook-form";
 import { registerUser } from "../../../redux/actions/authAction";
 import { useDispatch, useSelector } from "react-redux";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import { Alert, AlertTitle } from "@material-ui/lab";
 
 const LoginForm = () => {
   const history = useHistory();
@@ -50,15 +51,21 @@ const LoginForm = () => {
       alert("password not matched!");
     }
   };
-  console.log(auth);
-  useEffect(() => {
-    if (auth.error) {
-      alert(auth.error);
-    }
-  }, [auth.error]);
 
   return (
     <div>
+      {auth.error && (
+        <Alert
+          severity="error"
+          style={{
+            marginTop: 10,
+            marginBottom: 10,
+          }}
+        >
+          <AlertTitle>Error</AlertTitle>
+          {auth?.error} — <strong>check it out!</strong>
+        </Alert>
+      )}
       <form onSubmit={handleSubmit(onSubmit)}>
         <TextField
           name="username"
@@ -129,8 +136,8 @@ const LoginForm = () => {
           inputRef={register({
             required: "confirm password is required",
           })}
-          error={Boolean(errors.confirm_password)}
-          helperText={errors.confirm_password?.message}
+          error={Boolean(errors?.confirm_password)}
+          helperText={errors?.confirm_password?.message}
         />
 
         <div

@@ -8,7 +8,7 @@ class PostAdmin(admin.ModelAdmin):
 
 @admin.register(Like)
 class LikeAdmin(admin.ModelAdmin):
-    list_display=["user","post","liked_by"]
+    list_display=["id","user","post","liked_by"]
 
 @admin.register(Following)
 class FollowingAdmin(admin.ModelAdmin):

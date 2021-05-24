@@ -6,7 +6,9 @@ import ForgetPassword from "./pages/account/password/ForgetPassword";
 import PageNotFound from "./component/PageNotFound";
 import GlobalStyle from "./style/globalStyle";
 import Home from "./pages/home/Home";
-import PrivateRoute from "./PrivateRoute";
+import PrivateRoute from "./utilities/PrivateRoute";
+import SearchUser from "./pages/SearchUser";
+import EditProfile from "./component/profile/EditProfile";
 
 const App = () => {
   return (
@@ -17,6 +19,8 @@ const App = () => {
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Register} />
         <Route exact path="/forget/password" component={ForgetPassword} />
+        <Route exact path="/:q" component={SearchUser} />
+        <Route exact path="/edit/profile" component={EditProfile} />
         <Route component={PageNotFound} />
       </Switch>
     </>

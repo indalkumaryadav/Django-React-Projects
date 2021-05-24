@@ -21,6 +21,16 @@ const userReducer = (state = postInitialState, action) => {
         ...state,
         postData: action.payload,
       };
+    case actionTypes.DELETE_POST_SUCCESS:
+      return {
+        ...state,
+        postData: action.payload,
+      };
+    case actionTypes.UPDATE_POST_SUCCESS:
+      return {
+        ...state,
+        postData: action.payload,
+      };
     default:
       return state;
   }

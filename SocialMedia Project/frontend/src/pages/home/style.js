@@ -12,10 +12,10 @@ export const LeftDiv = styled.div`
 `;
 export const CenterDiv = styled.div`
   width: 64%;
-  margin-left: 18%;
+  margin-left: 20%;
 `;
 export const RightDiv = styled.div`
-  width: 18%;
+  width: 20%;
   height: 100vh;
   right: 0;
   position: fixed;

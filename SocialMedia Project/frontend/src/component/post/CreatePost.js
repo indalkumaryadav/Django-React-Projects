@@ -31,10 +31,17 @@ const CreatePost = ({ setOpen }) => {
   };
 
   const onSubmit = (data) => {
-    const formData = new FormData();
-    formData.append("image", data.image[0]);
-    formData.append("title", data.description);
-    dispatch(addPost(formData));
+    if (!data.image[0]) {
+      alert("please select image");
+    } else if (data.description === "") {
+      alert("please add description");
+    } else {
+      const formData = new FormData();
+      formData.append("image", data.image[0]);
+      formData.append("title", data.description);
+      dispatch(addPost(formData));
+      setOpen(false);
+    }
   };
 
   return (
@@ -78,9 +85,6 @@ const CreatePost = ({ setOpen }) => {
             backgroundColor: "blue",
             color: "white",
             marginTop: 10,
-          }}
-          onClick={() => {
-            setOpen(false);
           }}
         >
           Add

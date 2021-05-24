@@ -10,6 +10,7 @@ class UserProfile(models.Model):
     user_mobile=models.CharField(max_length=15,blank=True,null=True)
     user_bgImage=models.ImageField(upload_to="profile/background",default="background.jpg")
     dob=models.DateField(blank=True,null=True)
+    bio=models.TextField(null=True,blank=True)
 
     def __str__(self):
         return self.user.email
