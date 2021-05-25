@@ -1,4 +1,4 @@
-import * as actionTypes from "../actions/actionTypes";
+import * as actionTypes from '../actions/actionTypes';
 const userInitialState = {
   user: [],
   profile: [],
@@ -23,6 +23,11 @@ const userReducer = (state = userInitialState, action) => {
         profileData: action.payload,
       };
     case actionTypes.UPDATE_PROFILE_SUCCESS:
+      return {
+        ...state,
+        data: action.payload,
+      };
+    case actionTypes.UPDATE_USER_SUCCESS:
       return {
         ...state,
         data: action.payload,

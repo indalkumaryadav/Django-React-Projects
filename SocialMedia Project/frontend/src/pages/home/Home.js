@@ -1,26 +1,19 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  MainDiv,
-  LeftDiv,
-  RightDiv,
-  CenterDiv,
-  PostContainer,
-  StoryContainer,
-} from "./style";
-import Post from "../../component/post/Post";
-import NavBar from "../../component/header/NavBar";
-import LeftSideBar from "../../component/sidebar/LeftSideBar";
-import RightSidebar from "../../component/sidebar/RightSideBar";
-import Story from "../../component/story/Story";
-import AddStory from "../../component/story/AddStory";
-import Carousel from "react-elastic-carousel";
-import { loadUser, loadProfile } from "../../redux/actions/userAction";
-import { loadPost } from "../../redux/actions/postAction";
-import Menu from "../../component/Menu";
-import { getUserStory } from "../../redux/actions/storyAction";
-import { getLikeData } from "../../redux/actions/likeAction";
-import { Helmet } from "react-helmet";
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { MainDiv, LeftDiv, RightDiv, CenterDiv, PostContainer, StoryContainer } from './style';
+import Post from '../../component/post/Post';
+import NavBar from '../../component/header/NavBar';
+import LeftSideBar from '../../component/sidebar/LeftSideBar';
+import RightSidebar from '../../component/sidebar/RightSideBar';
+import Story from '../../component/story/Story';
+import AddStory from '../../component/story/AddStory';
+import Carousel from 'react-elastic-carousel';
+import { loadUser, loadProfile } from '../../redux/actions/userAction';
+import { loadPost } from '../../redux/actions/postAction';
+import Menu from '../../component/Menu';
+import { getUserStory } from '../../redux/actions/storyAction';
+import { getLikeData } from '../../redux/actions/likeAction';
+import { Helmet } from 'react-helmet';
 
 const Home = () => {
   const [openMenu, setOpenMenu] = useState(false);
@@ -59,24 +52,24 @@ const Home = () => {
             <div
               style={{
                 width: 520,
-                display: "flex",
+                display: 'flex',
               }}
             >
-              {userStory.length ? (
-                <Carousel itemsToShow={3} pagination={false}>
-                  {userStory.map((story, i) => {
-                    return (
-                      <Story
-                        key={i}
-                        image={story.image}
-                        email={story.user.email}
-                      />
-                    );
-                  })}
-                </Carousel>
-              ) : (
-                ""
-              )}
+              {/* current user story */}
+              <Carousel itemsToShow={3} pagination={false}>
+                {userStory?.current_user_story?.map((story, i) => {
+                  return <Story key={i} image={story.image} email={story.user.email} />;
+                })}
+
+                {/* following user story */}
+                {userStory?.following_user_story?.map((story) => {
+                  if (story?.length) {
+                    return story?.map((item, i) => {
+                      return <Story key={i} image={item?.image} email={item?.user?.email} />;
+                    });
+                  }
+                })}
+              </Carousel>
             </div>
           </StoryContainer>
           {/* story */}

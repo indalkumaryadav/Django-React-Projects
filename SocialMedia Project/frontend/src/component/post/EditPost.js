@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import { useForm } from "react-hook-form";
-import { Button, Snackbar, TextField } from "@material-ui/core";
-import styled from "styled-components";
-import ImageIcon from "@material-ui/icons/Image";
-import { loadPost, updateUserPost } from "../../redux/actions/postAction";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { Button, TextField } from '@material-ui/core';
+import styled from 'styled-components';
+import ImageIcon from '@material-ui/icons/Image';
+import { loadPost, updateUserPost } from '../../redux/actions/postAction';
+import { useDispatch } from 'react-redux';
 
 const Img = styled.img`
   width: 100%;
@@ -20,8 +20,8 @@ const EditPost = (props) => {
     const file = e.target.files[0];
     const fileReader = new FileReader();
     fileReader.onload = () => {
-      const fileTypes = ["jpg", "png", "jpeg", "PNG"];
-      const fileType = file.name.split(".")[1];
+      const fileTypes = ['jpg', 'png', 'jpeg', 'PNG'];
+      const fileType = file.name.split('.')[1];
       if (fileType) {
         setImageFile(fileReader.result);
         setState(true);
@@ -39,12 +39,12 @@ const EditPost = (props) => {
       dispatch(updateUserPost(postId, { title }));
       dispatch(loadPost());
     } else if (data.image[0]) {
-      formData.append("image", data.image[0]);
+      formData.append('image', data.image[0]);
       dispatch(updateUserPost(postId, formData));
       dispatch(loadPost());
     } else {
-      formData.append("title", data.title);
-      formData.append("image", data.image[0]);
+      formData.append('title', data.title);
+      formData.append('image', data.image[0]);
       dispatch(updateUserPost(postId, formData));
       dispatch(loadPost());
     }
@@ -61,16 +61,10 @@ const EditPost = (props) => {
           <Button
             component="label"
             style={{
-              textTransform: "capitalize",
+              textTransform: 'capitalize',
             }}
           >
-            <input
-              name="image"
-              type="file"
-              hidden
-              onChange={handleChange}
-              ref={register}
-            />
+            <input name="image" type="file" hidden onChange={handleChange} ref={register} />
             Select Image <ImageIcon />
           </Button>
           <TextField
@@ -88,8 +82,8 @@ const EditPost = (props) => {
             type="submit"
             fullWidth
             style={{
-              backgroundColor: "blue",
-              color: "white",
+              backgroundColor: 'blue',
+              color: 'white',
               marginTop: 10,
             }}
             onClick={() => {

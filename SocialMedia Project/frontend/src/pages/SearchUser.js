@@ -11,13 +11,12 @@ import { getLikeData } from '../redux/actions/likeAction';
 import { useParams } from 'react-router-dom';
 import UserCard from '../component/user/UserCard';
 import { searchUserData } from '.././redux/actions/searchAction';
-import { getUserFollowing } from '.././redux/actions/followingAction';
 
 const SearchUser = () => {
   const dispatch = useDispatch();
   const { q } = useParams();
-  const currentUser = useSelector((state) => state.user.profile);
   const searchUser = useSelector((state) => state.search.data);
+
   console.log(searchUser);
   useEffect(() => {
     dispatch(loadUser());

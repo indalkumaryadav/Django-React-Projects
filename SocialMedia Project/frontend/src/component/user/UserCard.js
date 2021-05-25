@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { Avatar, Button, IconButton, Typography, Container, Paper } from '@material-ui/core';
+import React, { useState } from 'react';
+import { Avatar, Button, IconButton, Typography, Container } from '@material-ui/core';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
-import { loadProfile, getUserProfileById } from '../../redux/actions/userAction';
+import { loadProfile } from '../../redux/actions/userAction';
 import {
   addUserFollowing,
   getUserFollowing,

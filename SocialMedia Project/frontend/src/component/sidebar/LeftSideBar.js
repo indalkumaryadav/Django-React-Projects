@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { LeftDiv } from './style';
 import InstagramIcon from '@material-ui/icons/Instagram';
 import { Container, IconButton, Typography, Divider } from '@material-ui/core';
@@ -11,7 +11,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../redux/actions/authAction';
 import { getUserFollowing } from '../../redux/actions/followingAction';
 import { useHistory } from 'react-router-dom';
-import Menu from '../../component/Menu';
 
 const LeftSideBar = ({ setOpenMenu }) => {
   const dispatch = useDispatch();

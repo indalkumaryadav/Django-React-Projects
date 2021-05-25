@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { IconButton, Avatar, Typography, Grid } from '@material-ui/core';
+import React, { useState } from 'react';
+import { IconButton, Avatar, Typography } from '@material-ui/core';
 import { UserPorfileCard } from './style';
 import EditIcon from '@material-ui/icons/Edit';
 import EditProfile from './EditProfile';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 const ProfileCard = ({
   bio,

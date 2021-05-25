@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { Button } from "@material-ui/core";
+import styled from 'styled-components';
+import { Button } from '@material-ui/core';
 
 export const MainDiv = styled.div`
   height: 60px;
@@ -11,6 +11,12 @@ export const MainDiv = styled.div`
   top: 0;
   background-color: white;
   z-index: 999;
+  @media (max-width: 425px) {
+    display: none;
+  }
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 export const SearchDiv = styled.div`
   display: flex;

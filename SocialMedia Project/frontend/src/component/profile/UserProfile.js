@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import ProfileCard from './ProfileCard';
 import { useSelector, useDispatch } from 'react-redux';
 import PostCard from '../post/PostCard';
@@ -7,14 +7,15 @@ import { getUserProfileById } from '../../redux/actions/userAction';
 
 const UserProfile = ({ userId }) => {
   const dispatch = useDispatch();
-  const [state, setState] = useState(false);
   const userProfile = useSelector((state) => state.user.profileData);
-
-  const currentUserPost = useSelector((state) => state.post.post.current_user_post);
+  const userData = useSelector((state) => state.user.data);
 
   useEffect(() => {
     dispatch(getUserProfileById(userId));
-  }, []);
+    if (userData?.message) {
+      alert(userData?.message);
+    }
+  }, [userData.message]);
 
   return (
     <>

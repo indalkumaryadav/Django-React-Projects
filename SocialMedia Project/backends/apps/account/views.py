@@ -33,14 +33,12 @@ class UserAPIView(APIView):
         })
 
     def patch(sefl,request,pk=None):
-        # if pk is not None:
-        #     user=User.objects.get(pk=pk)
-        #     user_ser=UserSerializer(user,data=request.data,context={'request':request},partial=True)
-        #     if user_ser.is_valid():
-        #         user_ser.save()
-        #         return Response(user_ser.data)
-        # return Response(user.errors)
-        return Response({'message':'somethings went wrong!'})
+        user=User.objects.get(pk=pk)
+        user_ser=UserSerializer(user,data=request.data,context={'request':request},partial=True)
+        if user_ser.is_valid():
+            user_ser.save()
+            return Response(user_ser.data)
+        return Response(user.errors)
         
 
     def delete(self,request,pk=None):

@@ -1,10 +1,5 @@
-import * as actionTypes from "./actionTypes";
-import {
-  fetchUser,
-  getProfile,
-  getUserById,
-  updateProfile,
-} from "../../api/userApi";
+import * as actionTypes from './actionTypes';
+import { fetchUser, getProfile, getUserById, updateProfile, updateUser } from '../../api/userApi';
 
 export const getUserSuccess = (data) => {
   return {
@@ -83,6 +78,28 @@ export function updateUserProfile(userId, data) {
       .then((response) => {
         if (response.status === 200) {
           dispatch(updateProfileSuccess(response.data));
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+}
+
+//update user
+export const updateSuccess = (data) => {
+  return {
+    type: actionTypes.UPDATE_USER_SUCCESS,
+    payload: data,
+  };
+};
+
+export function updateUserData(userId, data) {
+  return function (dispatch) {
+    updateUser(userId, data)
+      .then((response) => {
+        if (response.status === 200) {
+          dispatch(updateSuccess(response.data));
         }
       })
       .catch((error) => {

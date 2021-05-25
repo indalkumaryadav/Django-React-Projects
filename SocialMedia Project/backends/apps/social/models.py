@@ -18,6 +18,9 @@ class Story(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE,related_name="story")
     image=models.ImageField(upload_to="story/")
 
+    def __str__(self):
+        return f"{ self.user }"
+
 
 class Like(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE,related_name="like")

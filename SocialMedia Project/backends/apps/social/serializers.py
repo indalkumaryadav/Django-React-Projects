@@ -23,9 +23,10 @@ class PostSerializer(serializers.ModelSerializer):
         return request.url(image)
 
 class UserStorySerializer(serializers.ModelSerializer):
+    story=UserSerializer(read_only=True)
     class Meta:
         model=Story
-        fields="__all__"
+        fields=["id","image","story","user"]
         depth=2
     
     def getimage(self, *args, **kwargs):

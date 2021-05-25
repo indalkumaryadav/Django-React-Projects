@@ -1,7 +1,12 @@
 import { Avatar, Button, IconButton, TextField } from '@material-ui/core';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUserProfileById, loadProfile, updateUserProfile } from '../../redux/actions/userAction';
+import {
+  getUserProfileById,
+  loadProfile,
+  updateUserProfile,
+  updateUserData,
+} from '../../redux/actions/userAction';
 import PopUp from '../common/PopUp';
 import { useForm } from 'react-hook-form';
 
@@ -30,29 +35,55 @@ const EditProfile = ({ open, setOpen }) => {
   };
 
   const onSubmit = (data) => {
-    const bio = data.bio;
-    console.log(data);
     const formData = new FormData();
-    if (data.image[0]) {
-      formData.append('user_image', data.image[0]);
+    const user_image = data.image[0];
+    const bio = data.bio;
+    const username = data.username;
+    const full_name = data.full_name;
+    const user_mobile = data.user_mobile;
+    const dob = data.dob;
+
+    if (user_image) {
+      formData.append('user_image', user_image);
       dispatch(updateUserProfile(userId, formData));
       dispatch(loadProfile(userId, formData));
       dispatch(getUserProfileById(userId));
       setOpen(false);
-    } else if (data.dob) {
-      formData.append('dob', data.dob);
+    }
+    if (bio) {
+      formData.append('bio', bio);
       dispatch(updateUserProfile(userId, formData));
       dispatch(loadProfile(userId, formData));
       dispatch(getUserProfileById(userId));
       setOpen(false);
-    } else if (data.user_mobile) {
-      formData.append('user_mobile', data.user_mobile);
+    }
+    if (username) {
+      formData.append('username', username);
+      dispatch(updateUserData(userId, formData));
+      dispatch(loadProfile(userId, formData));
+      dispatch(getUserProfileById(userId));
+      setOpen(false);
+    }
+    if (full_name) {
+      formData.append('full_name', full_name);
+      dispatch(updateUserData(userId, formData));
+      dispatch(loadProfile(userId, formData));
+      dispatch(getUserProfileById(userId));
+      setOpen(false);
+    }
+    if (user_mobile) {
+      formData.append('user_mobile', user_mobile);
       dispatch(updateUserProfile(userId, formData));
       dispatch(loadProfile(userId, formData));
       dispatch(getUserProfileById(userId));
       setOpen(false);
-    } else if (bio) {
-      console.log(data.bio);
+    }
+    if (dob) {
+      formData.append('dob', dob);
+      dispatch(updateUserProfile(userId, formData));
+      dispatch(loadProfile(userId, formData));
+      dispatch(getUserProfileById(userId));
+      setOpen(false);
     }
   };
 
@@ -94,6 +125,7 @@ const EditProfile = ({ open, setOpen }) => {
               inputRef={register}
               defaultValue={currentUser?.profile?.bio}
             />
+
             <TextField
               fullWidth
               name="username"
@@ -110,8 +142,9 @@ const EditProfile = ({ open, setOpen }) => {
               variant="outlined"
               label="Full Name"
               inputRef={register}
-              defaultValue={currentUser?.full_name || 'indal kumar'}
+              defaultValue={currentUser?.full_name}
             />
+
             <TextField
               fullWidth
               type="number"
@@ -120,7 +153,7 @@ const EditProfile = ({ open, setOpen }) => {
               variant="outlined"
               label="Mobile No."
               inputRef={register}
-              defaultValue={currentUser?.profile?.user_mobile || 9507509624}
+              defaultValue={currentUser?.profile?.user_mobile}
             />
             <TextField
               fullWidth

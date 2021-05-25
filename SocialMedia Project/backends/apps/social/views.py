@@ -156,12 +156,21 @@ class StoryAPIView(APIView):
     authentication_classes=[JWTAuthentication]
 
     def get(self,request):
+        following=Following.objects.filter(user=request.user)
+        data=[]
+        for i in following:
+            story=Story.objects.filter(user__email=i)
+            story_ser=UserStorySerializer(story,many=True,context={'request':request})
+            data.append(story_ser.data)
         
         user_obj=Story.objects.filter(user=request.user)
         user_story_ser=UserStorySerializer(user_obj,many=True,context={
             'request':request
         })
-        return Response(user_story_ser.data)
+        return Response({
+            'current_user_story':user_story_ser.data,
+            'following_user_story':data
+        })
     
     def post(self,request):
         user_story=Story.objects.create(

@@ -2,8 +2,6 @@ import { Container, Divider, IconButton, Typography, Button } from '@material-ui
 import React, { useState } from 'react';
 import { RightDiv } from './style';
 import MenuIcon from '@material-ui/icons/Menu';
-import TelegramIcon from '@material-ui/icons/Telegram';
-import NotificationsIcon from '@material-ui/icons/Notifications';
 import UserCard from '../user/UserCard';
 import { useSelector } from 'react-redux';
 import DoubleArrowIcon from '@material-ui/icons/DoubleArrow';

@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { Avatar, IconButton, Typography } from "@material-ui/core";
-import styled from "styled-components";
-import PopUp from "../common/PopUp";
+import React, { useState } from 'react';
+import { Avatar, IconButton, Typography } from '@material-ui/core';
+import styled from 'styled-components';
+import PopUp from '../common/PopUp';
 
 const StoryDiv = styled.div`
   display: flex;
@@ -10,7 +10,7 @@ const StoryDiv = styled.div`
 `;
 
 const Story = ({ image, email }) => {
-  const name = email.substring(0, email.lastIndexOf("@"));
+  const name = email.substring(0, email.lastIndexOf('@'));
   const [open, setOpen] = useState(false);
 
   return (
@@ -31,15 +31,15 @@ const Story = ({ image, email }) => {
         </IconButton>
         <Typography
           style={{
-            textOverflow: "ellipsis",
+            textOverflow: 'ellipsis',
           }}
           variant="subtitle2"
         >
           {name}
         </Typography>
       </StoryDiv>
-      <PopUp title="Your Story" open={open} setOpen={setOpen}>
-        <img src={image} style={{ width: "100%" }} alt="story_img" />
+      <PopUp title="Story" open={open} setOpen={setOpen}>
+        <img src={image} style={{ width: '100%' }} alt="story_img" />
       </PopUp>
     </>
   );

@@ -1,29 +1,17 @@
-import React, { useState, useEffect } from "react";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
-import TelegramIcon from "@material-ui/icons/Telegram";
-import { MainDiv } from "./style";
-import {
-  Paper,
-  Typography,
-  Avatar,
-  IconButton,
-  Container,
-  Divider,
-} from "@material-ui/core";
-import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
-import { loadPost } from "../../redux/actions/postAction";
-import { useSelector, useDispatch } from "react-redux";
-import {
-  addPostLike,
-  removeLike,
-  getLikeData,
-} from "../../redux/actions/likeAction";
-import Comment from "../../component/comment/Comment";
-import CommentCard from "../comment/CommentCard";
-import PopUp from "../common/PopUp";
-import UserCard from "../user/UserCard";
-import UserProfile from "../profile/UserProfile";
+import React, { useState, useEffect } from 'react';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+import { MainDiv } from './style';
+import { Paper, Typography, Avatar, IconButton, Container, Divider } from '@material-ui/core';
+import ChatBubbleIcon from '@material-ui/icons/ChatBubble';
+import { loadPost } from '../../redux/actions/postAction';
+import { useSelector, useDispatch } from 'react-redux';
+import { addPostLike, removeLike } from '../../redux/actions/likeAction';
+import Comment from '../../component/comment/Comment';
+import CommentCard from '../comment/CommentCard';
+import PopUp from '../common/PopUp';
+import UserCard from '../user/UserCard';
+import UserProfile from '../profile/UserProfile';
 
 const Post = ({
   userName,
@@ -43,9 +31,6 @@ const Post = ({
   const dispatch = useDispatch();
   const [like, setLike] = useState(false);
   const user = useSelector((state) => state.user.profile);
-  const currentUserPost = useSelector(
-    (state) => state.post.post.current_user_post
-  );
 
   const likeUserPost = () => {
     if (!like) {
@@ -82,8 +67,8 @@ const Post = ({
         >
           <div
             style={{
-              display: "flex",
-              alignItems: "center",
+              display: 'flex',
+              alignItems: 'center',
             }}
           >
             <IconButton onClick={() => setState(true)}>
@@ -94,19 +79,15 @@ const Post = ({
           <img
             src={image}
             style={{
-              width: "100%",
-              cursor: "pointer",
+              width: '100%',
+              cursor: 'pointer',
             }}
             alt=""
           />
           {/*  */}
           <div>
             <IconButton onClick={handleLike}>
-              {like ? (
-                <FavoriteIcon style={{ color: "red" }} />
-              ) : (
-                <FavoriteBorderIcon />
-              )}
+              {like ? <FavoriteIcon style={{ color: 'red' }} /> : <FavoriteBorderIcon />}
             </IconButton>
             <IconButton onClick={handleComment}>
               <ChatBubbleIcon />
@@ -115,23 +96,23 @@ const Post = ({
           {/*  */}
           <Container
             style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
               marginTop: 4,
             }}
           >
             <div
               style={{
-                display: "flex",
-                alignItems: "center",
+                display: 'flex',
+                alignItems: 'center',
               }}
             >
               <Typography
                 style={{
-                  fontWeight: "bold",
-                  textDecoration: "underline",
-                  cursor: "pointer",
+                  fontWeight: 'bold',
+                  textDecoration: 'underline',
+                  cursor: 'pointer',
                   marginBottom: 15,
                 }}
                 variant="subtitle2"
@@ -145,9 +126,9 @@ const Post = ({
               onClick={() => setCommentOpen(true)}
               variant="subtitle2"
               style={{
-                fontWeight: "bold",
-                textDecoration: "underline",
-                cursor: "pointer",
+                fontWeight: 'bold',
+                textDecoration: 'underline',
+                cursor: 'pointer',
                 marginBottom: 15,
               }}
             >
@@ -156,7 +137,7 @@ const Post = ({
           </Container>
           <Divider
             style={{
-              opecity: "0.5",
+              opecity: '0.5',
             }}
           />
 

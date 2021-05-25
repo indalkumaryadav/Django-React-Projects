@@ -32,7 +32,6 @@ const PostCard = ({ postId, post, title, image }) => {
   const dispatch = useDispatch();
   const [openDialog, setOpenDialog] = React.useState(false);
 
-  const currentUser = useSelector((state) => state.user.profile);
   const currentUserPost = useSelector((state) => state.post.post.current_user_post);
 
   const handleClick = (event) => {
@@ -41,14 +40,6 @@ const PostCard = ({ postId, post, title, image }) => {
 
   const handleClose = () => {
     setAnchorEl(null);
-  };
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleCloseDialog = () => {
-    setOpen(false);
   };
 
   useEffect(() => {

@@ -1,21 +1,13 @@
-import React from "react";
-import ClearIcon from "@material-ui/icons/Clear";
-import { motion } from "framer-motion";
+import React from 'react';
+import ClearIcon from '@material-ui/icons/Clear';
+import { motion } from 'framer-motion';
 
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-  makeStyles,
-  DialogActions,
-  Button,
-} from "@material-ui/core";
+import { Dialog, DialogContent, DialogTitle, IconButton, makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   dialogWrapper: {
     padding: theme.spacing(2),
-    position: "absolute",
+    position: 'absolute',
     top: theme.spacing(0),
   },
 }));
@@ -36,9 +28,9 @@ const PopUp = (props) => {
       <DialogTitle>
         <div
           style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
           }}
         >
           <div>{title}</div>
@@ -50,8 +42,8 @@ const PopUp = (props) => {
             >
               <IconButton
                 style={{
-                  backgroundColor: "red",
-                  color: "white",
+                  backgroundColor: 'red',
+                  color: 'white',
                 }}
                 onClick={() => {
                   setOpen(false);

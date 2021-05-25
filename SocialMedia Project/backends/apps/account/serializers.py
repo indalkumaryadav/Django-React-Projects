@@ -6,7 +6,7 @@ class UserSerializer(serializers.ModelSerializer):
     profile=UserProfileSerializer(read_only=True)
     class Meta:
         model=User
-        fields=['id','username','full_name','email','password',"post","profile","follower","like","following","user_comment"]
+        fields=['id','username','full_name','email','password',"post","profile","follower","like","following","user_comment","story"]
         extra_kwargs = {'password':{'write_only':True,'required':True}}
         depth=2
     

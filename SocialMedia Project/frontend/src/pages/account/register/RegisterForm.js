@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from 'react';
 import {
   TextField,
   FormControl,
@@ -6,24 +6,24 @@ import {
   Checkbox,
   Typography,
   IconButton,
-} from "@material-ui/core";
+} from '@material-ui/core';
 import {
   RegisterButton,
   OR,
   GoogleSignInButton,
   FacebookSignInButton,
   LoginAccount,
-} from "./style";
-import { FcGoogle } from "react-icons/fc";
-import { FaFacebook } from "react-icons/fa";
-import { useHistory } from "react-router";
-import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
-import VisibilityIcon from "@material-ui/icons/Visibility";
-import { useForm } from "react-hook-form";
-import { registerUser } from "../../../redux/actions/authAction";
-import { useDispatch, useSelector } from "react-redux";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import { Alert, AlertTitle } from "@material-ui/lab";
+} from './style';
+import { FcGoogle } from 'react-icons/fc';
+import { FaFacebook } from 'react-icons/fa';
+import { useHistory } from 'react-router';
+import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
+import VisibilityIcon from '@material-ui/icons/Visibility';
+import { useForm } from 'react-hook-form';
+import { registerUser } from '../../../redux/actions/authAction';
+import { useDispatch, useSelector } from 'react-redux';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { Alert, AlertTitle } from '@material-ui/lab';
 
 const LoginForm = () => {
   const history = useHistory();
@@ -48,7 +48,7 @@ const LoginForm = () => {
     if (password === c_password) {
       dispatch(registerUser(username, email, password));
     } else {
-      alert("password not matched!");
+      alert('password not matched!');
     }
   };
 
@@ -74,7 +74,7 @@ const LoginForm = () => {
           label="Username"
           variant="outlined"
           inputRef={register({
-            required: "username is required",
+            required: 'username is required',
           })}
           error={Boolean(errors.username)}
           helperText={errors.username?.message}
@@ -86,10 +86,10 @@ const LoginForm = () => {
           label="Email"
           variant="outlined"
           inputRef={register({
-            required: "email is required",
+            required: 'email is required',
             pattern: {
               value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-              message: "invalid email address",
+              message: 'invalid email address',
             },
           })}
           error={Boolean(errors.email)}
@@ -97,7 +97,7 @@ const LoginForm = () => {
         />
         <TextField
           name="password"
-          type={showPassword ? "text" : "password"}
+          type={showPassword ? 'text' : 'password'}
           margin="normal"
           fullWidth
           label="Password"
@@ -110,10 +110,10 @@ const LoginForm = () => {
             ),
           }}
           inputRef={register({
-            required: "password is required",
+            required: 'password is required',
             minLength: {
               value: 6,
-              message: "minimum password length should be 6",
+              message: 'minimum password length should be 6',
             },
           })}
           error={Boolean(errors.password)}
@@ -121,7 +121,7 @@ const LoginForm = () => {
         />
         <TextField
           name="confirm_password"
-          type={showCPassword ? "text" : "password"}
+          type={showCPassword ? 'text' : 'password'}
           margin="normal"
           fullWidth
           label="Confirm Password"
@@ -134,7 +134,7 @@ const LoginForm = () => {
             ),
           }}
           inputRef={register({
-            required: "confirm password is required",
+            required: 'confirm password is required',
           })}
           error={Boolean(errors?.confirm_password)}
           helperText={errors?.confirm_password?.message}
@@ -142,9 +142,9 @@ const LoginForm = () => {
 
         <div
           style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
           }}
         >
           <FormControl>
@@ -169,10 +169,10 @@ const LoginForm = () => {
         }}
       >
         <Typography variant="subtitle1">
-          Already have an Account?{" "}
+          Already have an Account?{' '}
           <LoginAccount
             onClick={() => {
-              history.push("/");
+              history.push('/');
             }}
           >
             Login
@@ -195,7 +195,7 @@ const LoginForm = () => {
           style={{
             marginRight: 20,
             fontSize: 22,
-            color: "blue",
+            color: 'blue',
           }}
         />
         sign with facebook
