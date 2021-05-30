@@ -1,10 +1,13 @@
 import React from "react";
+import { AppBar, Button, Toolbar } from "@material-ui/core";
 
 const NavBar = () => {
   return (
-    <div>
-      <h1>NavBar</h1>
-    </div>
+    <>
+      <AppBar>
+        <Button>indal</Button>
+      </AppBar>
+    </>
   );
 };
 

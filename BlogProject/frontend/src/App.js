@@ -1,9 +1,21 @@
 import React from "react";
+import { Switch, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import PageNotFound from "./components/PageNotFound";
 
-export const App = () => {
+const App = () => {
   return (
-    <div>
-      <h1>App</h1>
-    </div>
+    <>
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/register" component={Register} />
+        <Route component={PageNotFound} />
+      </Switch>
+    </>
   );
 };
+
+export default App;
