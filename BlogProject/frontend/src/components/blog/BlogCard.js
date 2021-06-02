@@ -10,6 +10,17 @@ import {
 } from "@material-ui/core";
 import React from "react";
 import { useHistory } from "react-router-dom";
+import styled from "styled-components";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
+
+const Title = styled(Typography)`
+  font-weight: bold;
+
+  &:hover {
+    color: red;
+    cursor: pointer;
+  }
+`;
 
 const BlogCard = ({ postTitle }) => {
   const history = useHistory();
@@ -27,7 +38,7 @@ const BlogCard = ({ postTitle }) => {
         }
         action={
           <IconButton aria-label="settings">
-            {/* <MoreVertIcon /> */}
+            <MoreVertIcon />
           </IconButton>
         }
         title="Indal Kumar"
@@ -46,12 +57,17 @@ const BlogCard = ({ postTitle }) => {
             paddingTop: "56.25%", // 16:9
           }}
         />
-        <CardContent>
-          <Typography variant="h5" style={{ fontWeight: "bold" }}>
-            {postTitle}
-          </Typography>
-        </CardContent>
       </CardActionArea>
+      <CardContent>
+        <Title
+          onClick={() => {
+            history.push("/postTitle");
+          }}
+          variant="h5"
+        >
+          {postTitle}
+        </Title>
+      </CardContent>
     </Card>
   );
 };

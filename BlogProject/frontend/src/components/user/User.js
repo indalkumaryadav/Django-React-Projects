@@ -12,7 +12,9 @@ const User = ({}) => {
   const history = useHistory();
   return (
     <Card style={{ marginTop: 10 }}>
-      <div style={{ height: 150, width: "100%", backgroundColor: "red" }}></div>
+      <div
+        style={{ height: 150, width: "100%", backgroundColor: "black" }}
+      ></div>
       <CardContent>
         <div
           style={{
@@ -43,7 +45,7 @@ const User = ({}) => {
           </Typography>
           <Button
             style={{
-              width: 300,
+              width: 250,
               height: 40,
               backgroundColor: "#323ebe",
               color: "white",

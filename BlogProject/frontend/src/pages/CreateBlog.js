@@ -1,34 +1,48 @@
-import { Container, Grid } from "@material-ui/core";
+import { Button, Container, Grid, Paper, TextField } from "@material-ui/core";
 import NavBar from "../components/header/NavBar";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 const CreateBlog = () => {
   return (
     <>
       <NavBar />
       <Container>
-        <Grid container align="center">
+        <Grid container>
           <Grid md={7} style={{ marginLeft: "auto", marginRight: "auto" }}>
-            <div style={{ backgroundColor: "red", marginTop: 10 }}>
-              <CKEditor
-                editor={ClassicEditor}
-                config={{
-                  ckfinder: {
-                    uploadUrl: "http://10.0.0.12:8000/uploadFile",
-                  },
-                }}
-                onChange={(event, editor) => {
-                  const data = editor.getData();
-                }}
-                onBlur={(event, editor) => {
-                  console.log("Blur.", editor.getData());
-                }}
-                onFocus={(event, editor) => {
-                  console.log("Focus.", editor.getData());
-                }}
-              />
-            </div>
+            <Container>
+              <form>
+                <TextField
+                  label="Title"
+                  fullWidth
+                  multiline
+                  rows={2}
+                  variant="outlined"
+                  margin="normal"
+                />
+                <TextField
+                  label="Title"
+                  margin="normal"
+                  fullWidth
+                  multiline
+                  rows={5}
+                  variant="outlined"
+                />
+
+                <Button
+                  style={{
+                    marginTop: 10,
+                    marginLeft: 4,
+                    width: 200,
+                    height: 45,
+                    fontSize: 16,
+                    backgroundColor: "#323ebe",
+                    color: "white",
+                    textTransform: "capitalize",
+                  }}
+                >
+                  Create
+                </Button>
+              </form>
+            </Container>
           </Grid>
         </Grid>
       </Container>
