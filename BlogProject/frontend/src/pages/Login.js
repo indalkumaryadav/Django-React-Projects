@@ -6,32 +6,41 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import NavBar from "../components/header/NavBar";
-import { useHistory } from "react-router-dom";
-import styled from "styled-components";
-
-const LoginButton = styled(Button)`
-  margin-top: 20px;
-  background-color: #1da1f2;
-  color: white;
-  text-transform: capitalize;
-  font-size: 16px;
-  height: 48px;
-
-  &:hover {
-    background-color: #4754e1;
-    color: white;
-  }
-`;
+import { Redirect, useHistory } from "react-router-dom";
+import { LoginButton } from "./style";
+import { useForm } from "react-hook-form";
+import { login } from "../redux/actions/authAction";
+import { useDispatch, useSelector } from "react-redux";
+import { Alert, AlertTitle } from "@material-ui/lab";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const Login = () => {
+  useEffect(() => {
+    if (auth.token) {
+      return history.push("/");
+    }
+  }, []);
   const history = useHistory();
+  const dispatch = useDispatch();
   const [checked, setChecked] = useState(true);
+  const { register, handleSubmit, errors } = useForm();
+  const auth = useSelector((state) => state.auth);
 
   const handleChange = (event) => {
     setChecked(event.target.checked);
   };
+
+  const onSubmit = (data) => {
+    const email = data.email;
+    const password = data.password;
+    dispatch(login(email, password));
+  };
+
+  if (auth.isAuthenticated) {
+    return <Redirect to="/" />;
+  }
   return (
     <>
       <NavBar />
@@ -82,22 +91,52 @@ const Login = () => {
             >
               GitHub
             </Button>
-            <form style={{ marginTop: 10 }}>
+
+            {auth.error && (
+              <Alert
+                severity="error"
+                style={{
+                  marginTop: 10,
+                  marginBottom: 10,
+                }}
+              >
+                <AlertTitle>Error</AlertTitle>
+                {auth?.error?.response?.data?.detail} —{" "}
+                <strong>check it out!</strong>
+              </Alert>
+            )}
+            <form style={{ marginTop: 10 }} onSubmit={handleSubmit(onSubmit)}>
               <TextField
+                name="email"
                 label="Email"
                 variant="outlined"
                 margin="normal"
                 fullWidth
                 placeholder="email"
                 type="email"
+                inputRef={register({
+                  required: "email is required",
+                  pattern: {
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                    message: "invalid email address",
+                  },
+                })}
+                error={Boolean(errors.email)}
+                helperText={errors.email?.message}
               />
               <TextField
+                name="password"
                 label="Password"
                 variant="outlined"
                 margin="normal"
                 fullWidth
                 placeholder="password"
-                type="email"
+                type="password"
+                inputRef={register({
+                  required: "password is required",
+                })}
+                error={Boolean(errors.password)}
+                helperText={errors.password?.message}
               />
               <div
                 style={{
@@ -128,7 +167,13 @@ const Login = () => {
                 </Typography>
               </div>
 
-              <LoginButton fullWidth>Login</LoginButton>
+              <LoginButton fullWidth type="submit">
+                {auth.isLoading ? (
+                  <CircularProgress style={{ color: "red" }} />
+                ) : (
+                  "Login"
+                )}
+              </LoginButton>
             </form>
           </Container>
         </Paper>

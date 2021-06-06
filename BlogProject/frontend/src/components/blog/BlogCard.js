@@ -8,7 +8,7 @@ import {
   IconButton,
   Typography,
 } from "@material-ui/core";
-import React from "react";
+import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
@@ -22,18 +22,29 @@ const Title = styled(Typography)`
   }
 `;
 
-const BlogCard = ({ postTitle }) => {
+const BlogCard = ({
+  title,
+  image,
+  userImage,
+  username,
+  email,
+  created_at,
+  postId,
+}) => {
   const history = useHistory();
+
   return (
     <Card style={{ marginTop: 10, marginLeft: 10, marginRight: 10 }}>
       <CardHeader
         avatar={
           <IconButton
             onClick={() => {
-              history.push("/username");
+              history.push(`/${username}`);
             }}
           >
-            <Avatar aria-label="recipe">R</Avatar>
+            <Avatar aria-label="recipe" src={userImage}>
+              R
+            </Avatar>
           </IconButton>
         }
         action={
@@ -41,16 +52,16 @@ const BlogCard = ({ postTitle }) => {
             <MoreVertIcon />
           </IconButton>
         }
-        title="Indal Kumar"
-        subheader="May 14, 2020"
+        title={email}
+        subheader={created_at}
       />
       <CardActionArea
         onClick={() => {
-          history.push("/postTitle");
+          history.push(`/${username}/${title}/${postId}`);
         }}
       >
         <CardMedia
-          image="https://source.unsplash.com/random"
+          image={image}
           title="Paella dish"
           style={{
             height: 0,
@@ -61,11 +72,11 @@ const BlogCard = ({ postTitle }) => {
       <CardContent>
         <Title
           onClick={() => {
-            history.push("/postTitle");
+            history.push(`/${username}/${title}/${postId}`);
           }}
           variant="h5"
         >
-          {postTitle}
+          {title}
         </Title>
       </CardContent>
     </Card>

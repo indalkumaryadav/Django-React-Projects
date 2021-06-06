@@ -1,16 +1,38 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   AppBar,
   Avatar,
   Button,
+  Card,
+  CardActionArea,
+  CardHeader,
   Container,
   Divider,
   IconButton,
+  Menu,
+  MenuItem,
+  Typography,
 } from "@material-ui/core";
-import { useHistory } from "react-router";
+import { useHistory, useParams } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import { getProfileData, getUserData } from "../../redux/actions/userAction";
+import { logout } from "../../redux/actions/authAction";
 
 const NavBar = () => {
   const history = useHistory();
+  const dispatch = useDispatch();
+  const profileData = useSelector((state) => state.user.profileData);
+
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <>
       <AppBar
@@ -21,7 +43,14 @@ const NavBar = () => {
         }}
         position="sticky"
       >
-        <Container style={{ padding: 0 }}>
+        <Container
+          style={{
+            width: 1100,
+            marginLeft: "auto",
+            marginRight: "auto",
+            padding: 0,
+          }}
+        >
           <div
             style={{
               display: "flex",
@@ -61,7 +90,32 @@ const NavBar = () => {
                 display: "flex",
               }}
             >
-              {localStorage.getItem("access") ? (
+              {localStorage.getItem("token") ? (
+                <>
+                  <Button
+                    style={{
+                      width: 120,
+                      height: 45,
+                      marginTop: 10,
+                      backgroundColor: "#323ebe",
+                      color: "white",
+                      textTransform: "capitalize",
+                      fontWeight: "bold",
+                      fontSize: 16,
+                      marginRight: 20,
+                    }}
+                    onClick={() => {
+                      history.push("/create");
+                    }}
+                  >
+                    Create Post
+                  </Button>
+
+                  <IconButton>
+                    <Avatar onClick={handleClick} />
+                  </IconButton>
+                </>
+              ) : (
                 <>
                   <Button
                     style={{
@@ -94,37 +148,55 @@ const NavBar = () => {
                     Create Account
                   </Button>
                 </>
-              ) : (
-                <>
-                  <Button
-                    style={{
-                      width: 120,
-                      backgroundColor: "#323ebe",
-                      color: "white",
-                      textTransform: "capitalize",
-                      fontWeight: "bold",
-                      fontSize: 16,
-                    }}
-                    onClick={() => {
-                      history.push("/create");
-                    }}
-                  >
-                    Create Post
-                  </Button>
-
-                  <IconButton
-                    onClick={() => {
-                      history.push("/username");
-                    }}
-                  >
-                    <Avatar />
-                  </IconButton>
-                </>
               )}
             </div>
           </div>
         </Container>
       </AppBar>
+      {/* menu */}
+      <Menu
+        style={{ marginTop: 45, marginRight: 160 }}
+        id="simple-menu"
+        anchorEl={anchorEl}
+        keepMounted
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+      >
+        <div style={{ width: 230 }}>
+          <div style={{ height: 70 }}>
+            <CardActionArea
+              onClick={() => {
+                history.push(`/${profileData?.username}`);
+                dispatch(getProfileData());
+              }}
+            >
+              <Card elevation={0}>
+                <CardHeader
+                  subheader={profileData?.email}
+                  title={profileData?.username}
+                />
+              </Card>
+            </CardActionArea>
+            <Divider />
+          </div>
+          <br />
+          <MenuItem style={{ height: 40 }} onClick={handleClose}>
+            Profile
+          </MenuItem>
+          <MenuItem style={{ height: 40 }} onClick={handleClose}>
+            My account
+          </MenuItem>
+          <MenuItem
+            style={{ height: 40 }}
+            onClick={() => {
+              dispatch(logout());
+              handleClose();
+            }}
+          >
+            Logout
+          </MenuItem>
+        </div>
+      </Menu>
     </>
   );
 };

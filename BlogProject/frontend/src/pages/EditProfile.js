@@ -8,9 +8,18 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
+import { useEffect } from "react";
 import NavBar from "../components/header/NavBar";
+import { getProfileData } from "../redux/actions/userAction";
+import { useDispatch, useSelector } from "react-redux";
 
 const EditProfile = () => {
+  const dispatch = useDispatch();
+  const profileData = useSelector((state) => state.user.profileData);
+
+  useEffect(() => {
+    dispatch(getProfileData());
+  }, []);
   return (
     <>
       <NavBar />
@@ -18,48 +27,54 @@ const EditProfile = () => {
         <Grid item md={6} style={{ marginLeft: "auto", marginRight: "auto" }}>
           <Paper style={{ paddingBottom: 20, marginTop: 10, marginBottom: 20 }}>
             <Container>
-              <Typography style={{ marginTop: 5 }} variant="h5">
-                Edit Profile
-              </Typography>
+              <div style={{ paddingTop: 20 }}>
+                <Typography variant="h5">
+                  <span>Edit Profile</span>
+                </Typography>
+              </div>
               <form>
                 <div style={{ display: "flex", justifyContent: "center" }}>
                   <IconButton>
                     <Avatar
-                      src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"
+                      src={profileData?.profile[0]?.user_image}
                       style={{ width: 150, height: 150 }}
                     />
                   </IconButton>
                 </div>
 
                 <TextField
+                  name="full_name"
                   margin="normal"
                   fullWidth
                   variant="outlined"
-                  label="Email"
+                  label="Full Name"
+                  defaultValue={profileData?.full_name}
                 />
                 <TextField
+                  name="email"
                   margin="normal"
                   fullWidth
                   variant="outlined"
+                  type="email"
                   label="Email"
+                  defaultValue={profileData?.email}
                 />
                 <TextField
+                  name="username"
                   margin="normal"
                   fullWidth
                   variant="outlined"
-                  label="Email"
+                  label="Username"
+                  defaultValue={profileData?.username}
                 />
                 <TextField
+                  name="bio"
                   margin="normal"
                   fullWidth
+                  multiline
+                  rows={3}
                   variant="outlined"
-                  label="Email"
-                />
-                <TextField
-                  margin="normal"
-                  fullWidth
-                  variant="outlined"
-                  label="Email"
+                  label="Bio"
                 />
 
                 <Button

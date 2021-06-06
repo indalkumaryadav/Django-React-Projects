@@ -8,7 +8,7 @@ import {
 } from "@material-ui/core";
 import { useHistory } from "react-router";
 
-const User = ({}) => {
+const User = ({ email, username, userImage }) => {
   const history = useHistory();
   return (
     <Card style={{ marginTop: 10 }}>
@@ -24,8 +24,10 @@ const User = ({}) => {
             marginTop: "-60px",
           }}
         >
-          <IconButton onClick={() => history.push("/username")}>
-            <Avatar style={{ height: 70, width: 70 }}>I</Avatar>
+          <IconButton onClick={() => history.push(`/${username}`)}>
+            <Avatar src={userImage} style={{ height: 70, width: 70 }}>
+              I
+            </Avatar>
           </IconButton>
         </div>
 
@@ -38,10 +40,10 @@ const User = ({}) => {
           }}
         >
           <Typography style={{ fontSize: 18, fontWeight: "bold" }}>
-            Indal Kumar
+            {email}
           </Typography>
           <Typography style={{ color: "rgba(0,0,0,0.5)" }}>
-            @username
+            @{username}
           </Typography>
           <Button
             style={{

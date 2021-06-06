@@ -49,7 +49,7 @@ class User(AbstractUser):
 
 class UserProfile(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE,related_name='profile')
-    user_image=models.ImageField(upload_to="profile",default="profile.jpg")
+    user_image=models.ImageField(upload_to="profile",default="profile.svg")
     user_mobile=models.CharField(max_length=15,blank=True,null=True)
     user_bgImage=models.ImageField(upload_to="profile/background",default="background.jpg")
     dob=models.DateField(blank=True,null=True)

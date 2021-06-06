@@ -8,37 +8,35 @@ import {
   Typography,
 } from "@material-ui/core";
 import NavBar from "../components/header/NavBar";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import CakeIcon from "@material-ui/icons/Cake";
 import BlogCard from "../components/blog/BlogCard";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Footer from "../components/Footer";
+import { getUserData, getProfileData } from "../redux/actions/userAction";
+import { useDispatch, useSelector } from "react-redux";
 
 const UserProfile = () => {
   const history = useHistory();
   const [selectedTab, setSelectedTab] = useState(0);
   const [state, setState] = useState(false);
+  const dispatch = useDispatch();
+  const { username } = useParams();
+  const userData = useSelector((state) => state.user.userData);
+  const profileData = useSelector((state) => state.user.profileData);
+
   const handleChange = (event, newValue) => {
     setSelectedTab(newValue);
   };
-  const data = [
-    {
-      title:
-        "indal kumar yadav  Lorem, ipsum dolor sit amet consectetur adipisicing elit. Totam veritatis labore a perferendis ratione voluptate beatae cupiditate. Doloribus atque  indal kumar yadav  Lorem, ipsum ",
-    },
-    {
-      title:
-        "indal kumar yadav  Lorem, ipsum dolor sit amet consectetur adipisicing elit. Totam veritatis labore a perferendis ratione voluptate beatae cupiditate. Doloribus atque  indal kumar yadav  Lorem, ipsum ",
-    },
-    {
-      title:
-        "indal kumar yadav  Lorem, ipsum dolor sit amet consectetur adipisicing elit. Totam veritatis labore a perferendis ratione voluptate beatae cupiditate. Doloribus atque  indal kumar yadav  Lorem, ipsum ",
-    },
-  ];
-
+  console.log("userData", username);
+  console.log("profileData", profileData?.username);
+  useEffect(() => {
+    dispatch(getUserData(username));
+    dispatch(getProfileData());
+  }, []);
   return (
     <>
       <NavBar />
@@ -61,7 +59,12 @@ const UserProfile = () => {
           }}
         >
           <IconButton>
-            <Avatar style={{ height: 120, width: 120 }}>I</Avatar>
+            <Avatar
+              src={userData?.profile && userData?.profile[0]?.user_image}
+              style={{ height: 120, width: 120 }}
+            >
+              I
+            </Avatar>
           </IconButton>
         </div>
         <Paper
@@ -75,24 +78,48 @@ const UserProfile = () => {
               width: "100%",
             }}
           >
-            <Button
-              style={{
-                width: 150,
-                height: 40,
-                backgroundColor: "#323ebe",
-                color: "white",
-                textTransform: "capitalize",
-                marginTop: 10,
-                fontWeight: "bold",
-                fontSize: 16,
-              }}
-              onClick={() => {
-                history.push("/username/editprofile");
-              }}
-            >
-              Edit Profile
-            </Button>
+            {/* Edit Profile Button */}
+
+            {localStorage.getItem("token") &&
+            username === profileData?.username ? (
+              <Button
+                style={{
+                  width: 150,
+                  height: 40,
+                  backgroundColor: "#323ebe",
+                  color: "white",
+                  textTransform: "capitalize",
+                  marginTop: 10,
+                  fontWeight: "bold",
+                  fontSize: 16,
+                }}
+                onClick={() => {
+                  history.push("/username/editprofile");
+                }}
+              >
+                Edit Profile
+              </Button>
+            ) : (
+              <Button
+                style={{
+                  width: 150,
+                  height: 40,
+                  backgroundColor: "#323ebe",
+                  color: "white",
+                  textTransform: "capitalize",
+                  marginTop: 10,
+                  fontWeight: "bold",
+                  fontSize: 16,
+                }}
+                onClick={() => {
+                  history.push("/username/editprofile");
+                }}
+              >
+                Follow
+              </Button>
+            )}
           </Container>
+
           <Container>
             <div
               style={{
@@ -103,12 +130,11 @@ const UserProfile = () => {
               }}
             >
               <Typography style={{ fontSize: 30, fontWeight: "bold" }}>
-                Indal Kumar Yadav
+                {username}
               </Typography>
               <Typography style={{ marginTop: 10 }}>
                 404 bio not found
               </Typography>
-              {/*  */}
               <div
                 style={{
                   display: "flex",
@@ -118,7 +144,7 @@ const UserProfile = () => {
               >
                 <CakeIcon />
                 <Typography style={{ marginLeft: 10 }}>
-                  Joined on May 31, 2021
+                  {userData?.profile && userData?.profile[0].user.date_joined}
                 </Typography>
               </div>
             </div>
@@ -156,32 +182,19 @@ const UserProfile = () => {
           </AppBar>
           {selectedTab === 0 && (
             <Grid container>
-              {data.map((item, i) => {
+              {userData?.post?.map((item, i) => {
                 return (
                   <Grid key={i} item md={4} xs={12}>
-                    <BlogCard postTitle={item.title} />
-                  </Grid>
-                );
-              })}
-            </Grid>
-          )}
-          {selectedTab === 2 && (
-            <Grid container spacing={3}>
-              {data.map((item, i) => {
-                return (
-                  <Grid key={i} item md={4} xs={12}>
-                    <BlogCard postTitle={item.title} />
-                  </Grid>
-                );
-              })}
-            </Grid>
-          )}
-          {selectedTab === 3 && (
-            <Grid container spacing={3}>
-              {data.map((item, i) => {
-                return (
-                  <Grid key={i} item md={4} xs={12}>
-                    <BlogCard postTitle={item.title} />
+                    <BlogCard
+                      postId={item?.id}
+                      username={item?.user?.username}
+                      userId={item?.user?.id}
+                      title={item?.title}
+                      created_at={item?.created_at}
+                      email={item?.user?.email}
+                      image={item?.image}
+                      userImage={item?.profile?.user_image}
+                    />
                   </Grid>
                 );
               })}

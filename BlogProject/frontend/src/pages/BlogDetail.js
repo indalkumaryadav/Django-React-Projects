@@ -1,5 +1,4 @@
 import {
-  Card,
   CardMedia,
   Container,
   Divider,
@@ -15,8 +14,19 @@ import Comment from "../components/comment/Comment";
 import Footer from "../components/Footer";
 import AddComment from "../components/comment/AddComment";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { getSinglePostData } from "../redux/actions/postAction";
 
-const BlogDetail = ({ postTitle }) => {
+const BlogDetail = () => {
+  const { username, id } = useParams();
+  const dispatch = useDispatch();
+  const postData = useSelector((state) => state.post.postData);
+  console.log(postData);
+  useEffect(() => {
+    dispatch(getSinglePostData(id));
+  }, []);
+
   return (
     <>
       <NavBar />
@@ -44,7 +54,7 @@ const BlogDetail = ({ postTitle }) => {
               }}
             >
               <CardMedia
-                image="https://source.unsplash.com/random"
+                image={postData?.image}
                 title="Paella dish"
                 style={{
                   height: 0,
@@ -53,26 +63,7 @@ const BlogDetail = ({ postTitle }) => {
               />
               <Container style={{ marginTop: 10, paddingBottom: 20 }}>
                 <Typography variant="h5" style={{ fontWeight: "bold" }}>
-                  Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                  Fugiat aliquid ea, perferendis delectus quam explicabo
-                  placeat, ut laudantium ducimus minima, expedita eligendi!
-                  Autem iure voluptatibus modi earum veritatis ducimus minima.
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                  Ducimus nobis voluptatum quam adipisci, est autem amet
-                  similique ipsam animi expedita consequatur minus et
-                  blanditiis. Molestiae architecto dicta iste sit sed? Lorem
-                  ipsum dolor sit amet consectetur, adipisicing elit. Corporis
-                  sint quidem eum veniam, sit illum excepturi. Molestiae,
-                  tempora sequi fugiat, quas eius odio, atque unde et esse quam
-                  incidunt dolorum! Lorem ipsum dolor sit amet consectetur
-                  adipisicing elit. Dolorem deleniti tenetur, excepturi impedit
-                  totam exercitationem officiis voluptatem eos nulla magnam qui
-                  recusandae iure natus \n soluta. Voluptatibus quas illum
-                  veniam praesentium! Lorem ipsum dolor sit amet consectetur
-                  adipisicing elit. Impedit natus veniam neque vitae tempora,
-                  quidem cumque dicta accusamus laboriosam quaerat deserunt
-                  eaque, voluptates voluptatem est accusantium minima
-                  consectetur aspernatur repellat!
+                  {postData?.title}
                 </Typography>
                 {/*  */}
               </Container>
@@ -100,7 +91,11 @@ const BlogDetail = ({ postTitle }) => {
             </Paper>
           </Grid>
           <Grid item md={3} xs={12}>
-            <User />
+            <User
+              email={postData?.user?.email}
+              username={username}
+              userImage={postData?.profile?.user_image}
+            />
           </Grid>
         </Grid>
       </Container>
