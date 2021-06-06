@@ -22,7 +22,7 @@ const BlogDetail = () => {
   const { username, id } = useParams();
   const dispatch = useDispatch();
   const postData = useSelector((state) => state.post.postData);
-  console.log(postData);
+
   useEffect(() => {
     dispatch(getSinglePostData(id));
   }, []);

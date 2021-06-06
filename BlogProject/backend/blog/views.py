@@ -20,10 +20,10 @@ class BlogAPIView(APIView):
         #     serializer = self.serializer_class(page, many=True)
         #     return self.get_paginated_response(serializer.data)
 
-        # if pk is not None:
-        #     blog=Blog.objects.get(id=pk)
-        #     blog_ser=BlogSerializer(blog,context={'request':request})
-        #     return Response(blog_ser.data)
+        if pk is not None:
+            blog=Blog.objects.get(id=pk)
+            blog_ser=BlogSerializer(blog,context={'request':request})
+            return Response(blog_ser.data)
 
         page = self.paginate_queryset(Blog.objects.all())
         if page is not None:

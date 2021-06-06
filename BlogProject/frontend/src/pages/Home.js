@@ -7,15 +7,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { loadPost } from "../redux/actions/postAction";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { getProfileData, getUserData } from "../redux/actions/userAction";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 const Home = () => {
   const dispatch = useDispatch();
   const post = useSelector((state) => state.post);
   const user = useSelector((state) => state.user.userData);
   const allPost = post?.post?.results;
-  const count = post?.post?.count;
-  const next = post?.post?.next;
-
   useEffect(() => {
     dispatch(loadPost());
     dispatch(getUserData());
@@ -25,26 +23,37 @@ const Home = () => {
     <>
       <NavBar />
       <Container>
-        <Grid container spacing={4}>
-          {allPost?.map((item, i) => {
-            console.log(item);
-            return (
-              <Grid key={i} item md={4} xs={12}>
-                <BlogCard
-                  postId={item?.id}
-                  username={item?.user?.username}
-                  userId={item?.user?.id}
-                  title={item?.title}
-                  created_at={item?.created_at}
-                  email={item?.user?.email}
-                  image={item?.image}
-                  userImage={item?.profile?.user_image}
-                />
-              </Grid>
-            );
-          })}
-        </Grid>
-        <div
+        {allPost && (
+          <InfiniteScroll
+            style={{ marginTop: 50 }}
+            dataLength={allPost.length}
+            next={() => {
+              // setPage()
+            }}
+            hasMore={true}
+            loader={<h4>Loading...</h4>}
+          >
+            {allPost?.map((item, i) => {
+              return (
+                <Grid key={i} item md={4} xs={12}>
+                  <BlogCard
+                    postId={item?.id}
+                    username={item?.user?.username}
+                    userId={item?.user?.id}
+                    title={item?.title}
+                    created_at={item?.created_at}
+                    email={item?.user?.email}
+                    image={item?.image}
+                    userImage={item?.profile?.user_image}
+                  />
+                </Grid>
+              );
+            })}
+          </InfiniteScroll>
+        )}
+
+        {/* <Grid container spacing={4}></Grid> */}
+        {/* <div
           style={{
             display: "flex",
             justifyContent: "center",
@@ -61,11 +70,11 @@ const Home = () => {
               textTransform: "inherit",
               fontSize: 16,
             }}
-            onClick={() => {}}
+            onClick={loadMore}
           >
             Load more
           </Button>
-        </div>
+        </div> */}
       </Container>
       <Footer />
     </>

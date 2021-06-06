@@ -21,14 +21,11 @@ const App = () => {
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Register} />
         <PrivateRoute exact path="/create" component={CreateBlog} />
+        <PrivateRoute exact path="/editprofile" component={EditProfile} />
         <Route exact path="/:username/:posttitle/:id" component={BlogDetail} />
         <Route exact path="/:username" component={UserProfile} />
         <Route exact path="/forget-password" component={ForgetPassword} />
-        <PrivateRoute
-          exact
-          path="/username/editprofile"
-          component={EditProfile}
-        />
+
         <Route component={PageNotFound} />
       </Switch>
     </>

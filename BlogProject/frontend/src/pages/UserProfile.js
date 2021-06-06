@@ -18,6 +18,7 @@ import { useEffect, useState } from "react";
 import Footer from "../components/Footer";
 import { getUserData, getProfileData } from "../redux/actions/userAction";
 import { useDispatch, useSelector } from "react-redux";
+import { loadPost } from "../redux/actions/postAction";
 
 const UserProfile = () => {
   const history = useHistory();
@@ -36,6 +37,7 @@ const UserProfile = () => {
   useEffect(() => {
     dispatch(getUserData(username));
     dispatch(getProfileData());
+    dispatch(loadPost());
   }, []);
   return (
     <>
@@ -94,7 +96,7 @@ const UserProfile = () => {
                   fontSize: 16,
                 }}
                 onClick={() => {
-                  history.push("/username/editprofile");
+                  history.push("/editprofile");
                 }}
               >
                 Edit Profile

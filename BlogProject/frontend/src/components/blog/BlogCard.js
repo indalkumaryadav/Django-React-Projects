@@ -7,11 +7,13 @@ import {
   CardMedia,
   IconButton,
   Typography,
+  Button,
 } from "@material-ui/core";
 import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
+import { useDispatch, useSelector } from "react-redux";
 
 const Title = styled(Typography)`
   font-weight: bold;
@@ -32,6 +34,7 @@ const BlogCard = ({
   postId,
 }) => {
   const history = useHistory();
+  const profileData = useSelector((state) => state.user.profileData);
 
   return (
     <Card style={{ marginTop: 10, marginLeft: 10, marginRight: 10 }}>
@@ -48,9 +51,12 @@ const BlogCard = ({
           </IconButton>
         }
         action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
+          localStorage.getItem("token") &&
+          username === profileData?.username && (
+            <IconButton aria-label="settings">
+              <MoreVertIcon />
+            </IconButton>
+          )
         }
         title={email}
         subheader={created_at}

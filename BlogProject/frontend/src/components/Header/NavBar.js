@@ -17,6 +17,7 @@ import { useHistory, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { getProfileData, getUserData } from "../../redux/actions/userAction";
 import { logout } from "../../redux/actions/authAction";
+import { loadPost } from "../../redux/actions/postAction";
 
 const NavBar = () => {
   const history = useHistory();
@@ -166,8 +167,9 @@ const NavBar = () => {
           <div style={{ height: 70 }}>
             <CardActionArea
               onClick={() => {
+                dispatch(getUserData(profileData?.username));
                 history.push(`/${profileData?.username}`);
-                dispatch(getProfileData());
+                handleClose();
               }}
             >
               <Card elevation={0}>
@@ -180,12 +182,7 @@ const NavBar = () => {
             <Divider />
           </div>
           <br />
-          <MenuItem style={{ height: 40 }} onClick={handleClose}>
-            Profile
-          </MenuItem>
-          <MenuItem style={{ height: 40 }} onClick={handleClose}>
-            My account
-          </MenuItem>
+
           <MenuItem
             style={{ height: 40 }}
             onClick={() => {
