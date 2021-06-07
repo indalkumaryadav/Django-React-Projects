@@ -10,12 +10,16 @@ import {
   Typography,
 } from "@material-ui/core";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getProfileData } from "../../redux/actions/userAction";
 
-const Comment = () => {
+const Comment = ({ username, content }) => {
   const history = useHistory();
+  const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState(null);
+  const profileData = useSelector((state) => state.user.profileData);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -25,17 +29,28 @@ const Comment = () => {
     setAnchorEl(null);
   };
 
+  useEffect(() => {
+    dispatch(getProfileData());
+  }, []);
+
   return (
     <>
-      <div style={{ marginTop: 20, display: "flex", alignItems: "flex-start" }}>
+      <div
+        style={{
+          width: "100%",
+          marginTop: 20,
+          display: "flex",
+          alignItems: "flex-start",
+        }}
+      >
         <IconButton>
           <Avatar
             onClick={() => {
-              history.push("/username");
+              // history.push("/username");
             }}
           />
         </IconButton>
-        <Card>
+        <Card style={{ width: "100%" }}>
           <Container
             style={{
               display: "flex",
@@ -51,21 +66,20 @@ const Comment = () => {
                 marginTop: 10,
               }}
             >
-              <Typography style={{ marginLeft: 10 }}>Indal</Typography>
+              <Typography style={{ marginLeft: 10 }}>{username}</Typography>
               <Typography style={{ marginLeft: 10 }}>.</Typography>
-              <Typography style={{ marginLeft: 10 }}>May 20</Typography>
+              <Typography style={{ marginLeft: 10 }}></Typography>
             </div>
-            <IconButton onClick={handleClick}>
-              <MoreHorizIcon />
-            </IconButton>
+
+            {localStorage.getItem("token") &&
+              username === profileData?.username && (
+                <IconButton onClick={handleClick}>
+                  <MoreHorizIcon />
+                </IconButton>
+              )}
           </Container>
           <CardContent>
-            <Typography>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Repudiandae iusto velit est veritatis eum explicabo exercitationem
-              dolores obcaecati at saepe fugit blanditiis eos deleniti, rem a
-              optio, quibusdam officia aliquid.
-            </Typography>
+            <Typography>{content}</Typography>
           </CardContent>
         </Card>
       </div>

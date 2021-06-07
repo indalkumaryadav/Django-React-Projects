@@ -22,7 +22,7 @@ const BlogDetail = () => {
   const { username, id } = useParams();
   const dispatch = useDispatch();
   const postData = useSelector((state) => state.post.postData);
-
+  console.log(postData?.comment);
   useEffect(() => {
     dispatch(getSinglePostData(id));
   }, []);
@@ -41,7 +41,7 @@ const BlogDetail = () => {
               <IconButton>
                 <FavoriteBorderIcon />
               </IconButton>
-              <Typography>20</Typography>
+              <Typography>{postData?.like?.length || 0}</Typography>
             </div>
           </Grid>
           <Grid item md={8} xs={12}>
@@ -80,13 +80,15 @@ const BlogDetail = () => {
                   Discussion (10)
                 </Typography>
                 <AddComment />
-                <Comment />
-                <Comment />
-                <Comment />
-                <Comment />
-                <Comment />
-                <Comment />
-                <Comment />
+                {postData?.comment?.map((item, i) => {
+                  return (
+                    <Comment
+                      key={i}
+                      username={item?.commented_by?.username}
+                      content={item?.content}
+                    />
+                  );
+                })}
               </Container>
             </Paper>
           </Grid>

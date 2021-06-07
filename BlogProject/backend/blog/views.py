@@ -1,5 +1,5 @@
 from .serializers import BlogSerializer
-from .models import Blog
+from .models import Blog, BlogLike
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
@@ -25,38 +25,51 @@ class BlogAPIView(APIView):
             blog_ser=BlogSerializer(blog,context={'request':request})
             return Response(blog_ser.data)
 
-        page = self.paginate_queryset(Blog.objects.all())
-        if page is not None:
-            serializer = BlogSerializer(page, many=True,context={'request':request})
-            return self.get_paginated_response(serializer.data)
+        # page = self.paginate_queryset(Blog.objects.all())
+        # if page is not None:
+        #     serializer = BlogSerializer(page, many=True,context={'request':request})
+        #     return self.get_paginated_response(serializer.data)
 
-        serializer = BlogSerializer(Blog.objects.all(), many=True,context={'request':request})
-        return Response(serializer.data)
+        # serializer = BlogSerializer(Blog.objects.all(), many=True,context={'request':request})
+        # return Response(serializer.data)
+
+        paginator = PageNumberPagination()
+        paginator.page_size = 10
+        result_page = paginator.paginate_queryset(Blog.objects.all(), request)
+        serializer = BlogSerializer(result_page, many=True,context={'request':request})
+        return paginator.get_paginated_response(serializer.data)
 
     
-    @property
-    def paginator(self):
-        """
-        The paginator instance associated with the view, or `None`.
-        """
-        if not hasattr(self, '_paginator'):
-            if self.pagination_class is None:
-                self._paginator = None
-            else:
-                self._paginator = self.pagination_class()
-        return self._paginator
+    # @property
+    # def paginator(self):
+    #     """
+    #     The paginator instance associated with the view, or `None`.
+    #     """
+    #     if not hasattr(self, '_paginator'):
+    #         if self.pagination_class is None:
+    #             self._paginator = None
+    #         else:
+    #             self._paginator = self.pagination_class()
+    #     return self._paginator
 
-    def paginate_queryset(self, queryset):
-        """
-        Return a single page of results, or `None` if pagination is disabled.
-        """
-        if self.paginator is None:
-            return None
-        return self.paginator.paginate_queryset(queryset, self.request, view=self)
+    # def paginate_queryset(self, queryset):
+    #     """
+    #     Return a single page of results, or `None` if pagination is disabled.
+    #     """
+    #     if self.paginator is None:
+    #         return None
+    #     return self.paginator.paginate_queryset(queryset, self.request, view=self)
 
-    def get_paginated_response(self, data):
-        """
-        Return a paginated style `Response` object for the given output data.
-        """
-        assert self.paginator is not None
-        return self.paginator.get_paginated_response(data)
+    # def get_paginated_response(self, data):
+    #     """
+    #     Return a paginated style `Response` object for the given output data.
+    #     """
+    #     assert self.paginator is not None
+    #     return self.paginator.get_paginated_response(data)
+
+
+class BlogLikeAPIView(APIView):
+
+    def post(self,request):
+        blog_like=BlogLike.objects.create()
+        return Response({'message':True})
