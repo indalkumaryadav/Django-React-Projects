@@ -7,22 +7,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { loadPost } from "../redux/actions/postAction";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { getProfileData, getUserData } from "../redux/actions/userAction";
-import axios from "axios";
+import useLoadMore from "../hooks/loadMore";
 
 const Home = () => {
   const dispatch = useDispatch();
   const post = useSelector((state) => state.post);
   const user = useSelector((state) => state.user.userData);
   const allPost = post?.post?.results;
-  const [postData, setPostData] = useState([]);
-  let pageNum = 2;
+  let [pageNum, setPageNum] = useState(1);
 
-  const loadMore = (pageNum) => {
-    axios.get(`http://127.0.0.1:8000/api/blog/?page=${pageNum}`).then((res) => {
-      console.log(res.data.results);
-      setPostData(res.data.results);
-    });
+  const handleLoadMore = () => {
+    setPageNum(pageNum++);
   };
+  const { data } = useLoadMore(pageNum);
+  console.log(data);
+
   useEffect(() => {
     dispatch(loadPost());
     dispatch(getProfileData());
@@ -47,7 +46,7 @@ const Home = () => {
             </Grid>
           );
         })}
-        {postData.map((item, i) => {
+        {data.map((item, i) => {
           return (
             <Grid key={i} item md={4} xs={12}>
               <BlogCard
@@ -82,7 +81,7 @@ const Home = () => {
         >
           <Button
             style={{ backgroundColor: "red", color: "white" }}
-            onClick={() => loadMore(pageNum++)}
+            onClick={handleLoadMore}
           >
             Load More
           </Button>

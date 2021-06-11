@@ -11,6 +11,7 @@ import CreateBlog from "./pages/CreateBlog";
 import EditProfile from "./pages/EditProfile";
 import ForgetPassword from "./pages/ForgetPassword";
 import PrivateRoute from "./utilities/PrivateRoute";
+import GridLayout from "./components/GridLayout";
 
 const App = () => {
   return (
@@ -22,10 +23,11 @@ const App = () => {
         <Route exact path="/register" component={Register} />
         <PrivateRoute exact path="/create" component={CreateBlog} />
         <PrivateRoute exact path="/editprofile" component={EditProfile} />
-        <Route exact path="/:username/:posttitle/:id" component={BlogDetail} />
-        <Route exact path="/:username" component={UserProfile} />
         <Route exact path="/forget-password" component={ForgetPassword} />
+        <Route exact path="/gird" component={GridLayout} />
 
+        <Route exact path="/:username" component={UserProfile} />
+        <Route exact path="/:username/:posttitle/:id" component={BlogDetail} />
         <Route component={PageNotFound} />
       </Switch>
     </>

@@ -146,7 +146,7 @@ const UserProfile = () => {
               >
                 <CakeIcon />
                 <Typography style={{ marginLeft: 10 }}>
-                  {userData?.profile && userData?.profile[0].user.date_joined}
+                  {userData?.profile && userData?.profile[0]?.user?.date_joined}
                 </Typography>
               </div>
             </div>

@@ -15,7 +15,7 @@ import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getProfileData } from "../../redux/actions/userAction";
 
-const Comment = ({ username, content }) => {
+const Comment = ({ username, email, content, userImage }) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState(null);
@@ -45,6 +45,7 @@ const Comment = ({ username, content }) => {
       >
         <IconButton>
           <Avatar
+            src={userImage}
             onClick={() => {
               // history.push("/username");
             }}
@@ -66,7 +67,9 @@ const Comment = ({ username, content }) => {
                 marginTop: 10,
               }}
             >
-              <Typography style={{ marginLeft: 10 }}>{username}</Typography>
+              <Typography style={{ marginLeft: 10 }}>
+                {username || email}
+              </Typography>
               <Typography style={{ marginLeft: 10 }}>.</Typography>
               <Typography style={{ marginLeft: 10 }}></Typography>
             </div>

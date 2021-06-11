@@ -85,7 +85,9 @@ const BlogDetail = () => {
                     <Comment
                       key={i}
                       username={item?.commented_by?.username}
+                      email={item?.commented_by?.email}
                       content={item?.content}
+                      userImage={item?.profile?.user_image}
                     />
                   );
                 })}

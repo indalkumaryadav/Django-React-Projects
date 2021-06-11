@@ -4,7 +4,7 @@ from .models import  User, UserProfile
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model=UserProfile
-        fields='__all__'
+        fields="__all__"
         
     def getimage(self, *args, **kwargs):
         request = self.context.get('request')
@@ -16,6 +16,7 @@ class UserSerializer(serializers.ModelSerializer):
         fields=['id','username','full_name','email','password','profile',"post"]
         extra_kwargs = {'password':{'write_only':True,'required':True}}
         depth=2
+        
     
     def create(self, validated_data):
         password = validated_data.pop('password', None)
