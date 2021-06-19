@@ -1,31 +1,52 @@
+import { useState, useEffect } from "react";
 import {
   CardMedia,
   Container,
   Divider,
   Grid,
-  IconButton,
   Paper,
   Typography,
 } from "@material-ui/core";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams, Link } from "react-router-dom";
 import NavBar from "../components/header/NavBar";
 import User from "../components/user/User";
 import Comment from "../components/comment/Comment";
 import Footer from "../components/Footer";
 import AddComment from "../components/comment/AddComment";
-import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
 import { getSinglePostData } from "../redux/actions/postAction";
+import Heart from "react-animated-heart";
+import axios from "axios";
 
 const BlogDetail = () => {
   const { username, id } = useParams();
+  const [isClick, setClick] = useState(false);
   const dispatch = useDispatch();
   const postData = useSelector((state) => state.post.postData);
-  console.log(postData?.comment);
+  const history = useHistory();
   useEffect(() => {
     dispatch(getSinglePostData(id));
-  }, []);
+    if (isClick) {
+      axios
+        .post(
+          "http://127.0.0.1:8000/api/blog/like/",
+          {
+            id: postData?.id,
+          },
+          {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+          }
+        )
+        .then((res) => {
+          console.log(res.data);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+  }, [isClick]);
 
   return (
     <>
@@ -38,9 +59,12 @@ const BlogDetail = () => {
                 marginTop: 10,
               }}
             >
-              <IconButton>
-                <FavoriteBorderIcon />
-              </IconButton>
+              {localStorage.getItem("token") ? (
+                <Heart isClick={isClick} onClick={() => setClick(!isClick)} />
+              ) : (
+                <Heart onClick={() => history.push("/login")} />
+              )}
+
               <Typography>{postData?.like?.length || 0}</Typography>
             </div>
           </Grid>
@@ -65,6 +89,9 @@ const BlogDetail = () => {
                 <Typography variant="h5" style={{ fontWeight: "bold" }}>
                   {postData?.title}
                 </Typography>
+                <div
+                  dangerouslySetInnerHTML={{ __html: postData?.content }}
+                ></div>
                 {/*  */}
               </Container>
               <Divider />
@@ -79,7 +106,7 @@ const BlogDetail = () => {
                 >
                   Discussion (10)
                 </Typography>
-                <AddComment />
+                <AddComment postId={postData?.id} />
                 {postData?.comment?.map((item, i) => {
                   return (
                     <Comment

@@ -45,7 +45,7 @@ const User = ({ email, username, userImage }) => {
           <Typography style={{ color: "rgba(0,0,0,0.5)" }}>
             @{username}
           </Typography>
-          <Button
+          {/* <Button
             style={{
               width: 250,
               height: 40,
@@ -57,7 +57,7 @@ const User = ({ email, username, userImage }) => {
             }}
           >
             Follow
-          </Button>
+          </Button> */}
         </div>
       </CardContent>
     </Card>

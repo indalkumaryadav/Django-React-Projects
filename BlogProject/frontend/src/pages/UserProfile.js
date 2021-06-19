@@ -102,23 +102,7 @@ const UserProfile = () => {
                 Edit Profile
               </Button>
             ) : (
-              <Button
-                style={{
-                  width: 150,
-                  height: 40,
-                  backgroundColor: "#323ebe",
-                  color: "white",
-                  textTransform: "capitalize",
-                  marginTop: 10,
-                  fontWeight: "bold",
-                  fontSize: 16,
-                }}
-                onClick={() => {
-                  history.push("/username/editprofile");
-                }}
-              >
-                Follow
-              </Button>
+              ""
             )}
           </Container>
 
@@ -129,6 +113,7 @@ const UserProfile = () => {
                 justifyContent: "center",
                 alignItems: "center",
                 flexDirection: "column",
+                marginTop: 50,
               }}
             >
               <Typography style={{ fontSize: 30, fontWeight: "bold" }}>
@@ -152,62 +137,63 @@ const UserProfile = () => {
             </div>
           </Container>
         </Paper>
-
-        <Container
-          style={{
-            marginTop: 10,
-            width: 1050,
-            marginLeft: "auto",
-            marginRight: "auto",
-          }}
-        >
-          <AppBar
-            position="static"
-            elevation={1}
-            style={{ backgroundColor: "white" }}
-          >
-            <Tabs
-              value={selectedTab}
-              onChange={handleChange}
-              aria-label="simple tabs example"
-            >
-              <Tab
-                label="Posts"
-                style={{
-                  color: "black",
-                  textTransform: "capitalize",
-                  fontSize: 16,
-                  fontWeight: "600",
-                }}
-              />
-            </Tabs>
-          </AppBar>
-          {selectedTab === 0 && (
-            <Grid container>
-              {userData?.post?.map((item, i) => {
-                return (
-                  <Grid key={i} item md={4} xs={12}>
-                    <BlogCard
-                      postId={item?.id}
-                      username={item?.user?.username}
-                      userId={item?.user?.id}
-                      title={item?.title}
-                      created_at={item?.created_at}
-                      email={item?.user?.email}
-                      image={item?.image}
-                      userImage={item?.profile?.user_image}
-                    />
-                  </Grid>
-                );
-              })}
-            </Grid>
-          )}
-        </Container>
       </Container>
-
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };
 
 export default UserProfile;
+
+{
+  /* <Container
+style={{
+  marginTop: 10,
+  width: 1050,
+  marginLeft: "auto",
+  marginRight: "auto",
+}}
+>
+<AppBar
+  position="static"
+  elevation={1}
+  style={{ backgroundColor: "white" }}
+>
+  <Tabs
+    value={selectedTab}
+    onChange={handleChange}
+    aria-label="simple tabs example"
+  >
+    <Tab
+      label="Posts"
+      style={{
+        color: "black",
+        textTransform: "capitalize",
+        fontSize: 16,
+        fontWeight: "600",
+      }}
+    />
+  </Tabs>
+</AppBar>
+{selectedTab === 0 && (
+  <Grid container>
+    {userData?.post?.map((item, i) => {
+      return (
+        <Grid key={i} item md={4} xs={12}>
+          <BlogCard
+            postId={item?.id}
+            username={item?.user?.username}
+            userId={item?.user?.id}
+            title={item?.title}
+            created_at={item?.created_at}
+            email={item?.user?.email}
+            image={item?.image}
+            userImage={item?.profile?.user_image}
+          />
+        </Grid>
+      );
+    })}
+  </Grid>
+)}
+</Container> */
+}

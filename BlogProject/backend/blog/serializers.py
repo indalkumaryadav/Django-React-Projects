@@ -24,7 +24,7 @@ class BlogSerializer(serializers.ModelSerializer):
     user=UserSerializer(read_only=True)
     class Meta:
         model=Blog
-        fields=['id','title','created_at','image','user','comment','profile','like']
+        fields=['id','title','content','created_at','image','user','comment','profile','like']
         
     def getimage(self, *args, **kwargs):
         request = self.context.get('request')

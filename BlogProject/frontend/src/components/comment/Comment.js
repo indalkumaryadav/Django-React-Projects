@@ -44,12 +44,7 @@ const Comment = ({ username, email, content, userImage }) => {
         }}
       >
         <IconButton>
-          <Avatar
-            src={userImage}
-            onClick={() => {
-              // history.push("/username");
-            }}
-          />
+          <Avatar src={userImage} onClick={() => {}} />
         </IconButton>
         <Card style={{ width: "100%" }}>
           <Container

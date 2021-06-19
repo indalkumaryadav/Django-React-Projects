@@ -33,7 +33,7 @@ const NavBar = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
+  const username = "indal";
   return (
     <>
       <AppBar
@@ -72,18 +72,18 @@ const NavBar = () => {
             </div>
             <div>
               <form>
-                <input
-                  placeholder="Search"
-                  style={{
-                    width: 400,
-                    height: 40,
-                    borderRadius: 5,
-                    padding: 10,
-                    fontSize: 16,
-                    borderColor: "lightgrey",
-                    outline: 0,
-                  }}
-                />
+                <div class="pt-2 relative mx-auto text-gray-600">
+                  <input
+                    class="border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none"
+                    type="search"
+                    name="search"
+                    placeholder="Search"
+                  />
+                  <button
+                    type="submit"
+                    class="absolute right-0 top-0 mt-5 mr-4"
+                  ></button>
+                </div>
               </form>
             </div>
             <div
@@ -93,7 +93,7 @@ const NavBar = () => {
             >
               {localStorage.getItem("token") ? (
                 <>
-                  <Button
+                  {/* <Button
                     style={{
                       width: 120,
                       height: 45,
@@ -110,7 +110,7 @@ const NavBar = () => {
                     }}
                   >
                     Create Post
-                  </Button>
+                  </Button> */}
 
                   <IconButton>
                     <Avatar onClick={handleClick} />

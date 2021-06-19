@@ -1,90 +1,31 @@
-import {
-  Avatar,
-  Card,
-  CardActionArea,
-  CardContent,
-  CardHeader,
-  CardMedia,
-  IconButton,
-  Typography,
-  Button,
-} from "@material-ui/core";
-import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import styled from "styled-components";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
-import { useDispatch, useSelector } from "react-redux";
-
-const Title = styled(Typography)`
-  font-weight: bold;
-
-  &:hover {
-    color: red;
-    cursor: pointer;
-  }
-`;
-
-const BlogCard = ({
-  title,
-  image,
-  userImage,
-  username,
-  email,
-  created_at,
-  postId,
-}) => {
+const BlogCard = (props) => {
+  const { title, username, postId, image } = props;
   const history = useHistory();
-  const profileData = useSelector((state) => state.user.profileData);
   return (
-    <Card style={{ marginTop: 10, marginLeft: 10, marginRight: 10 }}>
-      <CardHeader
-        avatar={
-          <IconButton
-            onClick={() => {
-              history.push(`/${username}`);
-            }}
-          >
-            <Avatar aria-label="recipe" src={userImage}>
-              R
-            </Avatar>
-          </IconButton>
-        }
-        action={
-          localStorage.getItem("token") &&
-          username === profileData?.username && (
-            <IconButton aria-label="settings">
-              <MoreVertIcon />
-            </IconButton>
-          )
-        }
-        title={email}
-        subheader={created_at}
-      />
-      <CardActionArea
-        onClick={() => {
-          history.push(`/${username}/${title}/${postId}`);
-        }}
-      >
-        <CardMedia
-          image={image}
-          title="Paella dish"
-          style={{
-            height: 0,
-            paddingTop: "56.25%", // 16:9
-          }}
-        />
-      </CardActionArea>
-      <CardContent>
-        <Title
-          onClick={() => {
-            history.push(`/${username}/${title}/${postId}`);
-          }}
-          variant="h5"
-        >
-          {title}
-        </Title>
-      </CardContent>
-    </Card>
+    <div
+      class="max-w-sm rounded overflow-hidden shadow-lg mx-auto my-8  cursor-pointer"
+      onClick={() => {
+        history.push(`${username}/${postId}`);
+      }}
+    >
+      <img class="w-full" src={image} alt="Sunset in the mountains" />
+      <div class="px-6 py-4">
+        <div class="font-bold text-xl mb-2">{title}</div>
+        <p class="text-gray-600 text-base"></p>
+      </div>
+      <div class="px-6 py-4">
+        <span class="inline-block bg-gray-100 rounded-full px-3 py-1 text-sm font-semibold text-gray-600 mr-2">
+          #developer
+        </span>
+        <span class="inline-block bg-gray-100 rounded-full px-3 py-1 text-sm font-semibold text-gray-600 mr-2">
+          #web
+        </span>
+        <span class="inline-block bg-gray-100 rounded-full px-3 py-1 text-sm font-semibold text-gray-600">
+          #technology
+        </span>
+      </div>
+    </div>
   );
 };
 

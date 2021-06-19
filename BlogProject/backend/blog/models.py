@@ -1,12 +1,14 @@
 from account.models import UserProfile
 from django.db import models
 from account.models import User
+from ckeditor.fields import RichTextField
 # Create your models here.
 
 class Blog(models.Model):
     user=models.ForeignKey(User, on_delete=models.CASCADE,related_name="post")
     profile=models.ForeignKey(UserProfile, on_delete=models.CASCADE,related_name="userprofile")
-    title=models.CharField(max_length=250)
+    title=models.TextField(max_length=200)
+    content=RichTextField()
     image=models.ImageField(upload_to="blog/",blank=True,null=True)
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now=True)
@@ -14,8 +16,7 @@ class Blog(models.Model):
     def comment(self):
         return self.blogcomment_set.all()
 
-    def __str__(self):
-        return self.title
+   
 
 class BlogComment(models.Model):
     blog=models.ForeignKey(Blog,on_delete=models.CASCADE,related_name="comment")
@@ -25,6 +26,8 @@ class BlogComment(models.Model):
     created_at=models.DateTimeField(auto_now_add=True)
 
 class BlogLike(models.Model):
+
     blog=models.ForeignKey(Blog,on_delete=models.CASCADE,related_name="like")
+    print(blog)
     liked_by=models.ForeignKey(User, on_delete=models.CASCADE,related_name="liked_by")
     created_at=models.DateTimeField(auto_now_add=True)

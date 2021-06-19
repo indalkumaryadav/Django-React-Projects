@@ -5,7 +5,6 @@ import NavBar from "../components/header/NavBar";
 import Footer from "../components/Footer";
 import { useDispatch, useSelector } from "react-redux";
 import { loadPost } from "../redux/actions/postAction";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import { getProfileData, getUserData } from "../redux/actions/userAction";
 import useLoadMore from "../hooks/loadMore";
 
@@ -17,11 +16,9 @@ const Home = () => {
   let [pageNum, setPageNum] = useState(1);
 
   const handleLoadMore = () => {
-    setPageNum(pageNum++);
+    setPageNum(++pageNum);
   };
-  const { data } = useLoadMore(pageNum);
-  console.log(data);
-
+  const { data, btnState } = useLoadMore(pageNum);
   useEffect(() => {
     dispatch(loadPost());
     dispatch(getProfileData());
@@ -30,22 +27,6 @@ const Home = () => {
   const GridLayout = () => {
     return (
       <Grid container spacing={4}>
-        {allPost?.map((item, i) => {
-          return (
-            <Grid key={i} item md={4} xs={12}>
-              <BlogCard
-                postId={item?.id}
-                username={item?.user?.username}
-                userId={item?.user?.id}
-                title={item?.title}
-                created_at={item?.created_at}
-                email={item?.user?.email}
-                image={item?.image}
-                userImage={item?.profile?.user_image}
-              />
-            </Grid>
-          );
-        })}
         {data.map((item, i) => {
           return (
             <Grid key={i} item md={4} xs={12}>
@@ -54,6 +35,7 @@ const Home = () => {
                 username={item?.user?.username}
                 userId={item?.user?.id}
                 title={item?.title}
+                content={item?.content}
                 created_at={item?.created_at}
                 email={item?.user?.email}
                 image={item?.image}
@@ -79,12 +61,16 @@ const Home = () => {
             justifyContent: "center",
           }}
         >
-          <Button
-            style={{ backgroundColor: "red", color: "white" }}
-            onClick={handleLoadMore}
-          >
-            Load More
-          </Button>
+          {btnState ? (
+            <Button
+              style={{ backgroundColor: "red", color: "white" }}
+              onClick={handleLoadMore}
+            >
+              Load More
+            </Button>
+          ) : (
+            <h1 className="bg-red-500">No more data.</h1>
+          )}
         </div>
       </Container>
       <Footer />

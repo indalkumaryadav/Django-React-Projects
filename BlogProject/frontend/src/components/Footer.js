@@ -4,7 +4,7 @@ import LinkedInIcon from "@material-ui/icons/LinkedIn";
 import YouTubeIcon from "@material-ui/icons/YouTube";
 import TwitterIcon from "@material-ui/icons/Twitter";
 
-const Footer = () => {
+const Footer = ({ children }) => {
   return (
     <Paper
       elevation={0}

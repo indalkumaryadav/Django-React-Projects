@@ -27,7 +27,7 @@ const App = () => {
         <Route exact path="/gird" component={GridLayout} />
 
         <Route exact path="/:username" component={UserProfile} />
-        <Route exact path="/:username/:posttitle/:id" component={BlogDetail} />
+        <Route exact path="/:username/:id" component={BlogDetail} />
         <Route component={PageNotFound} />
       </Switch>
     </>

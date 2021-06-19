@@ -41,6 +41,7 @@ INSTALLED_APPS = [
 
 
     'rest_framework',
+    'ckeditor',
     'corsheaders',
     'account',
     'blog',
@@ -62,7 +63,7 @@ ROOT_URLCONF = 'core.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -143,4 +144,12 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=7),
 }
 
+REST_FRAMEWORK = {
+
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
+}
+
+
 DEFAULT_AUTO_FIELD='django.db.models.AutoField'
+
+CKEDITOR_UPLOAD_PATH = 'content/ckeditor/'
