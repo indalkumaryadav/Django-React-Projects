@@ -8,7 +8,10 @@
 
 ## Screenshots
 
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+![Screenshot](https://github.com/indalkumaryadav/DjangoReactProjects/blob/main/SocialMedia%20Project/social.png)
+![Screenshot](https://github.com/indalkumaryadav/DjangoReactProjects/blob/main/SocialMedia%20Project/profile_social.png)
+![Screenshot](https://github.com/indalkumaryadav/DjangoReactProjects/blob/main/SocialMedia%20Project/social_login.png)
+![Screenshot](https://github.com/indalkumaryadav/DjangoReactProjects/blob/main/SocialMedia%20Project/social_register.png)
 
 ## Installation
 
