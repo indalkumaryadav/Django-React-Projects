@@ -69,7 +69,7 @@ const ProfileCard = ({
                 &nbsp; following
               </Typography>
             </div>
-            <Typography>{bio || 'Your bio hello this is my bio indal kumar'}</Typography>
+            <Typography>{bio || 'your bio'}</Typography>
           </div>
         </div>
 
