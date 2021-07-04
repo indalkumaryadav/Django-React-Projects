@@ -1,0 +1,13 @@
+.chatList {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 250px;
+}
+.userContainer {
+  overflow: hidden;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 70%;
+}

@@ -1,0 +1,13 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+.chatContainer {
+  background-color: #f4f3f8;
+  height: 84vh;
+  width: 90%;
+  margin: auto;
+  margin-top: 40px;
+  border-radius: 10px;
+}

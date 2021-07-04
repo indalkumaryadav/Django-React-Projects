@@ -1,0 +1,4 @@
+.chat__body {
+  display: flex;
+  height: 100%;
+}

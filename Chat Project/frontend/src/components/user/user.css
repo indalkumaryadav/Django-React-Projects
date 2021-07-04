@@ -1,0 +1,11 @@
+.user {
+  padding: 10px;
+  display: flex;
+  margin-top: 4px;
+}
+
+.user:hover {
+  background-color: purple;
+  color: white;
+  cursor: pointer;
+}
