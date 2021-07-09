@@ -69,7 +69,7 @@ const ChatItem = () => {
                 position: "absolute",
                 right: 0,
                 top: 50,
-                backgroundColor: "red",
+                backgroundColor: "gray",
                 padding: 10,
                 borderRadius: 8,
                 color: "white",
